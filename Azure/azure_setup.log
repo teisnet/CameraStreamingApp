@@ -1,0 +1,325 @@
+Date: Jan 11 2021 21:28
+
+Running Azure CLI commands for creating Azure Service plan, web app, resource group.
+
+
+--------------------------------------------------------------------------------
+CameraStreaming
+--------------------------------------------------------------------------------
+
+App Service name: CameraStreaming
+App Service plan name: CameraStreamingAppServicePlan
+Resource group name: CameraStreamingResourceGroup
+Log filename: azure_setup.log
+
+--------------------------------------------------------------------------------
+
+
+
+Creating resource group 'CameraStreamingResourceGroup', location 'North Europe'.
+
+$ az group create --name CameraStreamingResourceGroup --location 'North Europe'
+{
+  "id": "/subscriptions/aa125b58-2214-4bff-a11a-0fcea6e73cff/resourceGroups/CameraStreamingResourceGroup",
+  "location": "northeurope",
+  "managedBy": null,
+  "name": "CameraStreamingResourceGroup",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+
+
+
+Creating App Service plan 'CameraStreamingAppServicePlan', free tier (F1:Free).
+
+$ az appservice plan create --name CameraStreamingAppServicePlan --resource-group CameraStreamingResourceGroup --sku FREE
+{
+  "freeOfferExpirationTime": null,
+  "geoRegion": "North Europe",
+  "hostingEnvironmentProfile": null,
+  "hyperV": false,
+  "id": "/subscriptions/aa125b58-2214-4bff-a11a-0fcea6e73cff/resourceGroups/CameraStreamingResourceGroup/providers/Microsoft.Web/serverfarms/CameraStreamingAppServicePlan",
+  "isSpot": false,
+  "isXenon": false,
+  "kind": "app",
+  "location": "North Europe",
+  "maximumElasticWorkerCount": 1,
+  "maximumNumberOfWorkers": 1,
+  "name": "CameraStreamingAppServicePlan",
+  "numberOfSites": 0,
+  "perSiteScaling": false,
+  "provisioningState": "Succeeded",
+  "reserved": false,
+  "resourceGroup": "CameraStreamingResourceGroup",
+  "sku": {
+    "capabilities": null,
+    "capacity": 0,
+    "family": "F",
+    "locations": null,
+    "name": "F1",
+    "size": "F1",
+    "skuCapacity": null,
+    "tier": "Free"
+  },
+  "spotExpirationTime": null,
+  "status": "Ready",
+  "subscription": "aa125b58-2214-4bff-a11a-0fcea6e73cff",
+  "tags": null,
+  "targetWorkerCount": 0,
+  "targetWorkerSizeId": 0,
+  "type": "Microsoft.Web/serverfarms",
+  "workerTierName": null
+}
+
+
+
+Creating a web app (App Service) 'CameraStreaming'.
+
+$ az webapp create --name CameraStreaming --resource-group CameraStreamingResourceGroup --plan CameraStreamingAppServicePlan --runtime "DOTNET|5.0" --deployment-local-git
+Local git is configured with url of 'https://teisnet@camerastreaming.scm.azurewebsites.net/CameraStreaming.git'
+{
+  "availabilityState": "Normal",
+  "clientAffinityEnabled": true,
+  "clientCertEnabled": false,
+  "clientCertExclusionPaths": null,
+  "cloningInfo": null,
+  "containerSize": 0,
+  "dailyMemoryTimeQuota": 0,
+  "defaultHostName": "camerastreaming.azurewebsites.net",
+  "deploymentLocalGitUrl": "https://teisnet@camerastreaming.scm.azurewebsites.net/CameraStreaming.git",
+  "enabled": true,
+  "enabledHostNames": [
+    "camerastreaming.azurewebsites.net",
+    "camerastreaming.scm.azurewebsites.net"
+  ],
+  "ftpPublishingUrl": "ftp://waws-prod-db3-169.ftp.azurewebsites.windows.net/site/wwwroot",
+  "hostNameSslStates": [
+    {
+      "hostType": "Standard",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "camerastreaming.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIp": null
+    },
+    {
+      "hostType": "Repository",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "camerastreaming.scm.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIp": null
+    }
+  ],
+  "hostNames": [
+    "camerastreaming.azurewebsites.net"
+  ],
+  "hostNamesDisabled": false,
+  "hostingEnvironmentProfile": null,
+  "httpsOnly": false,
+  "hyperV": false,
+  "id": "/subscriptions/aa125b58-2214-4bff-a11a-0fcea6e73cff/resourceGroups/CameraStreamingResourceGroup/providers/Microsoft.Web/sites/CameraStreaming",
+  "identity": null,
+  "inProgressOperationId": null,
+  "isDefaultContainer": null,
+  "isXenon": false,
+  "kind": "app",
+  "lastModifiedTimeUtc": "2021-01-11T20:28:20.956666",
+  "location": "North Europe",
+  "maxNumberOfWorkers": null,
+  "name": "CameraStreaming",
+  "outboundIpAddresses": "20.54.107.5,20.54.107.157,20.54.107.228,20.54.107.229,20.54.108.60,20.54.108.66",
+  "possibleOutboundIpAddresses": "20.54.107.5,20.54.107.157,20.54.107.228,20.54.107.229,20.54.108.60,20.54.108.66,20.54.108.67,20.54.108.78,20.54.108.79,20.54.108.82,20.54.108.108,20.54.108.109,20.54.108.114,20.54.108.115,20.54.108.40,20.54.108.42,20.54.108.43,20.54.108.68,20.54.108.69,20.54.108.70,20.54.108.72,20.54.108.73,20.54.108.74,20.54.108.75,20.54.108.84,20.54.108.85,20.54.108.86,20.54.96.183,20.54.96.224,20.54.98.82",
+  "redundancyMode": "None",
+  "repositorySiteName": "CameraStreaming",
+  "reserved": false,
+  "resourceGroup": "CameraStreamingResourceGroup",
+  "scmSiteAlsoStopped": false,
+  "serverFarmId": "/subscriptions/aa125b58-2214-4bff-a11a-0fcea6e73cff/resourceGroups/CameraStreamingResourceGroup/providers/Microsoft.Web/serverfarms/CameraStreamingAppServicePlan",
+  "siteConfig": {
+    "acrUseManagedIdentityCreds": false,
+    "acrUserManagedIdentityId": null,
+    "alwaysOn": null,
+    "apiDefinition": null,
+    "apiManagementConfig": null,
+    "appCommandLine": null,
+    "appSettings": null,
+    "autoHealEnabled": null,
+    "autoHealRules": null,
+    "autoSwapSlotName": null,
+    "azureMonitorLogCategories": null,
+    "azureStorageAccounts": null,
+    "connectionStrings": null,
+    "cors": null,
+    "customAppPoolIdentityAdminState": null,
+    "customAppPoolIdentityTenantState": null,
+    "defaultDocuments": null,
+    "detailedErrorLoggingEnabled": null,
+    "documentRoot": null,
+    "experiments": null,
+    "fileChangeAuditEnabled": null,
+    "ftpsState": null,
+    "functionAppScaleLimit": null,
+    "functionsRuntimeScaleMonitoringEnabled": null,
+    "handlerMappings": null,
+    "healthCheckPath": null,
+    "http20Enabled": null,
+    "httpLoggingEnabled": null,
+    "ipSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 1,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "javaContainer": null,
+    "javaContainerVersion": null,
+    "javaVersion": null,
+    "limits": null,
+    "linuxFxVersion": null,
+    "loadBalancing": null,
+    "localMySqlEnabled": null,
+    "logsDirectorySizeLimit": null,
+    "machineKey": null,
+    "managedPipelineMode": null,
+    "managedServiceIdentityId": null,
+    "metadata": null,
+    "minTlsVersion": null,
+    "minimumElasticInstanceCount": 0,
+    "netFrameworkVersion": null,
+    "nodeVersion": null,
+    "numberOfWorkers": null,
+    "phpVersion": null,
+    "powerShellVersion": null,
+    "preWarmedInstanceCount": null,
+    "publishingPassword": null,
+    "publishingUsername": null,
+    "push": null,
+    "pythonVersion": null,
+    "remoteDebuggingEnabled": null,
+    "remoteDebuggingVersion": null,
+    "requestTracingEnabled": null,
+    "requestTracingExpirationTime": null,
+    "routingRules": null,
+    "runtimeADUser": null,
+    "runtimeADUserPassword": null,
+    "scmIpSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 1,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "scmIpSecurityRestrictionsUseMain": null,
+    "scmMinTlsVersion": null,
+    "scmType": null,
+    "tracingOptions": null,
+    "use32BitWorkerProcess": null,
+    "virtualApplications": null,
+    "vnetName": null,
+    "vnetPrivatePortsCount": null,
+    "vnetRouteAllEnabled": null,
+    "webSocketsEnabled": null,
+    "websiteTimeZone": null,
+    "winAuthAdminState": null,
+    "winAuthTenantState": null,
+    "windowsFxVersion": null,
+    "xManagedServiceIdentityId": null
+  },
+  "slotSwapStatus": null,
+  "state": "Running",
+  "suspendedTill": null,
+  "tags": null,
+  "targetSwapSlot": null,
+  "trafficManagerHostNames": null,
+  "type": "Microsoft.Web/sites",
+  "usageState": "Normal"
+}
+
+
+
+Enable remote logging and set log level to 'Information'.
+
+$ az webapp log config --name CameraStreaming --resource-group CameraStreamingResourceGroup --application-logging filesystem --level information
+{
+  "applicationLogs": {
+    "azureBlobStorage": {
+      "level": "Off",
+      "retentionInDays": null,
+      "sasUrl": null
+    },
+    "azureTableStorage": {
+      "level": "Off",
+      "sasUrl": null
+    },
+    "fileSystem": {
+      "level": "Verbose"
+    }
+  },
+  "detailedErrorMessages": {
+    "enabled": false
+  },
+  "failedRequestsTracing": {
+    "enabled": false
+  },
+  "httpLogs": {
+    "azureBlobStorage": {
+      "enabled": false,
+      "retentionInDays": null,
+      "sasUrl": null
+    },
+    "fileSystem": {
+      "enabled": false,
+      "retentionInDays": null,
+      "retentionInMb": 35
+    }
+  },
+  "id": "/subscriptions/aa125b58-2214-4bff-a11a-0fcea6e73cff/resourceGroups/CameraStreamingResourceGroup/providers/Microsoft.Web/sites/CameraStreaming/config/logs",
+  "kind": null,
+  "location": "North Europe",
+  "name": "logs",
+  "resourceGroup": "CameraStreamingResourceGroup",
+  "type": "Microsoft.Web/sites/config"
+}
+
+
+--------------------------------------------------------------------------------
+CameraStreaming
+--------------------------------------------------------------------------------
+
+Date: Jan 11 2021 21:28 (script completed in 0m 46s)
+
+Website url: https://camerastreaming.azurewebsites.net
+Website info: https://camerastreaming.scm.azurewebsites.net
+
+Git deployment repository: https://teisnet@camerastreaming.scm.azurewebsites.net/CameraStreaming.git
+
+Access log output using command: $ az webapp log tail --name CameraStreaming --resource-group CameraStreamingResourceGroup
+
+--------------------------------------------------------------------------------
+
+
+All commands completed sucessfully.
