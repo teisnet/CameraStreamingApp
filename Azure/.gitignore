@@ -1,0 +1,5 @@
+# Exclude config file (contains sensitive information)
+azure_setup.conf
+
+# Include log file
+!azure_setup.log
