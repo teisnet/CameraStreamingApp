@@ -10,6 +10,7 @@ class Program
 			.Configure(config =>
 			{
 				config.UseDefaultFiles()
+					.UseHttpsRedirection()
 					.UseStaticFiles();
 			})
 			.UseWebRoot("wwwroot").Build().Run();
