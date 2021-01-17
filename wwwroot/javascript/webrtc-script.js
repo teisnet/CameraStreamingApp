@@ -1,5 +1,5 @@
-import Config from './config.js';
-import WowzaWebRTCPlay from './lib/WowzaWebRTCPlay.js';
+import config from '../config.js';
+import WowzaWebRTCPlay from '../lib/WowzaWebRTCPlay.js';
 
 
 window.wowzaWebRTCPlay = new WowzaWebRTCPlay();
@@ -14,6 +14,6 @@ wowzaWebRTCPlay.on({
 
 wowzaWebRTCPlay.set({ videoElementPlay: document.getElementById('video') });
 
-wowzaWebRTCPlay.set(Config);
+wowzaWebRTCPlay.set(config);
 
 wowzaWebRTCPlay.play();

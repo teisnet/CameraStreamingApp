@@ -1,4 +1,4 @@
-import config from './config.js';
+import config from '../config.js';
 
 var player = videojs('video', {
 	autoplay: 'any',
