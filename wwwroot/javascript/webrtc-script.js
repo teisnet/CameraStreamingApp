@@ -12,7 +12,7 @@ wowzaWebRTCPlay.on({
 	}
 });
 
-wowzaWebRTCPlay.set({ videoElementPlay: document.getElementById('video') });
+wowzaWebRTCPlay.set({ videoElementPlay: document.getElementById('webrtc-video') });
 
 wowzaWebRTCPlay.set(config);
 

@@ -1,0 +1,95 @@
+﻿
+.video-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	padding: 30px;
+	box-sizing: border-box;
+}
+
+.video-frame {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.video {
+	/* box-sizing: border-box; */
+	background-color: lightskyblue;
+	/* border: 10px solid red; */
+	max-width: 1024px;
+	max-height: 576px;
+}
+
+.overlay {
+	position: absolute;
+	background-color: red;
+}
+
+/* Top */
+.overlay.top-left, .overlay.top-right, .overlay.top-center, .overlay.top-full {
+	height: 30px;
+	top: -30px;
+}
+
+/* Bottom */
+.overlay.bottom-left, .overlay.bottom-right, .overlay.bottom-center, .overlay.bottom-full {
+	height: 30px;
+	bottom: -30px;
+}
+
+/* Top and bottom */
+
+.overlay.top-left, .overlay.bottom-left {
+	left: 0;
+	width: 100px;
+}
+
+.overlay.top-right, .overlay.bottom-right {
+	right: 0;
+	width: 100px;
+}
+
+.overlay.top-center, .overlay.bottom-center {
+	width: 100px;
+}
+
+.overlay.top-full, .overlay.bottom-full {
+	left: 0;
+	right: 0;
+}
+
+/* Left */
+.overlay.left-top, .overlay.left-bottom, .overlay.left-center, .overlay.overlay.left-full {
+	width: 30px;
+	left: -30px;
+}
+
+/* Right */
+.overlay.right-top, .overlay.right-bottom, .overlay.right-center, .overlay.overlay.right-full {
+	width: 30px;
+	right: -30px;
+}
+
+/* Left and right */
+
+.overlay.left-top, .overlay.right-top {
+	top: 0;
+	height: 100px;
+}
+
+.overlay.left-bottom, .overlay.right-bottom {
+	bottom: 0;
+	height: 100px;
+}
+
+.overlay.left-center, .overlay.right-center {
+	height: 100px;
+}
+
+.overlay.left-full, .overlay.right-full {
+	top: 0;
+	bottom: 0;
+}
