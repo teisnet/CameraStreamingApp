@@ -1,4 +1,4 @@
-let videoWrapperElement = $(".video");
+﻿let videoWrapperElement = $(".video");
 
 let videoElement = $("video.video");
 if (videoElement.length == 0) {
