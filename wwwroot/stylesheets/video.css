@@ -1,4 +1,4 @@
-
+﻿
 .video-container {
 	display: flex;
 	justify-content: center;
@@ -30,73 +30,73 @@
 	width: 100%;*/
 }
 
-.overlay {
+.video-overlay {
 	position: absolute;
 	background-color: red;
 }
 
 /* Top */
-.overlay.top-left, .overlay.top-right, .overlay.top-center, .overlay.top-full {
+.video-overlay.top-left, .video-overlay.top-right, .video-overlay.top-center, .video-overlay.top-full {
 	height: 30px;
 	top: -30px;
 }
 
 /* Bottom */
-.overlay.bottom-left, .overlay.bottom-right, .overlay.bottom-center, .overlay.bottom-full {
+.video-overlay.bottom-left, .video-overlay.bottom-right, .video-overlay.bottom-center, .video-overlay.bottom-full {
 	height: 30px;
 	bottom: -30px;
 }
 
 /* Top and bottom */
 
-.overlay.top-left, .overlay.bottom-left {
+.video-overlay.top-left, .video-overlay.bottom-left {
 	left: 0;
 	width: 100px;
 }
 
-.overlay.top-right, .overlay.bottom-right {
+.video-overlay.top-right, .video-overlay.bottom-right {
 	right: 0;
 	width: 100px;
 }
 
-.overlay.top-center, .overlay.bottom-center {
+.video-overlay.top-center, .video-overlay.bottom-center {
 	width: 100px;
 }
 
-.overlay.top-full, .overlay.bottom-full {
+.video-overlay.top-full, .video-overlay.bottom-full {
 	left: 0;
 	right: 0;
 }
 
 /* Left */
-.overlay.left-top, .overlay.left-bottom, .overlay.left-center, .overlay.overlay.left-full {
+.video-overlay.left-top, .video-overlay.left-bottom, .video-overlay.left-center, .video-overlay.video-overlay.left-full {
 	width: 30px;
 	left: -30px;
 }
 
 /* Right */
-.overlay.right-top, .overlay.right-bottom, .overlay.right-center, .overlay.overlay.right-full {
+.video-overlay.right-top, .video-overlay.right-bottom, .video-overlay.right-center, .video-overlay.video-overlay.right-full {
 	width: 30px;
 	right: -30px;
 }
 
 /* Left and right */
 
-.overlay.left-top, .overlay.right-top {
+.video-overlay.left-top, .video-overlay.right-top {
 	top: 0;
 	height: 100px;
 }
 
-.overlay.left-bottom, .overlay.right-bottom {
+.video-overlay.left-bottom, .video-overlay.right-bottom {
 	bottom: 0;
 	height: 100px;
 }
 
-.overlay.left-center, .overlay.right-center {
+.video-overlay.left-center, .video-overlay.right-center {
 	height: 100px;
 }
 
-.overlay.left-full, .overlay.right-full {
+.video-overlay.left-full, .video-overlay.right-full {
 	top: 0;
 	bottom: 0;
 }
