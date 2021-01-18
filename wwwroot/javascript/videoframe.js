@@ -1,4 +1,4 @@
-﻿let videoWrapperElement = $(".video");
+let videoWrapperElement = $(".video");
 
 let videoElement = $("video.video");
 if (videoElement.length == 0) {
@@ -15,7 +15,7 @@ if (videoElement.length == 0) {
 // video-frame: the containing frame nesting the video and matches its size.
 let videoContainerElement = $(".video-container");
 
-let videoRatio = 1 / 1;
+let videoRatio = 16 / 9;
 
 function resizeVideo() {
 	let parentWidth = videoContainerElement.width();
@@ -47,3 +47,6 @@ videoElement[0].addEventListener("loadedmetadata", function (e) {
 $(window).resize(function () {
 	resizeVideo();
 });
+
+resizeVideo();
+$(".video-frame").css("visibility", "visible");
