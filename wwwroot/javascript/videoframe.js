@@ -1,4 +1,9 @@
-﻿let videoElement = $(".video");
+﻿let videoWrapperElement = $(".video");
+
+let videoElement = $("video.video");
+if (videoElement.length == 0) {
+	videoElement = $(".video video");
+}
 
 // This code scales the video element while matching the proportions to the proportions of its video canvas.
 // If the video element does not match the proportions of its video it is playing,
@@ -16,8 +21,6 @@ function resizeVideo() {
 	let parentWidth = videoContainerElement.width();
 	let parentHeight = videoContainerElement.height();
 
-	$(".message").text(Math.round(parentWidth) + "x" + Math.round(parentHeight));
-
 	let videoWidth = 0;
 	let videoHeight = 0;
 
@@ -30,10 +33,8 @@ function resizeVideo() {
 	}
 
 	// 'outerWidth/Height' accounts for borders around the video element
-	videoElement.outerWidth(videoWidth);
-	videoElement.outerHeight(videoHeight);
-
-	videoElement.text(Math.round(videoWidth) + "x" + Math.round(videoHeight));
+	videoWrapperElement.outerWidth(videoWidth);
+	videoWrapperElement.outerHeight(videoHeight);
 }
 
 videoElement[0].addEventListener("loadedmetadata", function (e) {

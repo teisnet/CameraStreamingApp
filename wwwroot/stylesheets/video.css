@@ -23,6 +23,11 @@
 	max-height: 576px;
 }
 
+.video video {
+	/*width: 100%;
+	width: 100%;*/
+}
+
 .overlay {
 	position: absolute;
 	background-color: red;
