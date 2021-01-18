@@ -1,6 +1,6 @@
 import config from '../config.js';
 
-var player = videojs('video', {
+var player = videojs('hls-video', {
 	autoplay: 'any',
 	// controls: true,
 	controlBar: {
