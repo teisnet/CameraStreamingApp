@@ -1,0 +1,14 @@
+.debug-label {
+	font-size: 14px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	/* width: 45px; */
+	background-color: red;
+	color: white;
+	padding: 0px 3px;
+}
+
+.debug-parent {
+	position: relative;
+}
