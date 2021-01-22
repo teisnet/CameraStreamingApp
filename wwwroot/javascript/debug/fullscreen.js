@@ -6,27 +6,17 @@ function openFullscreen() {
 
 	isFullscreen = true;
 
-	if (fullscreenElement.requestFullscreen) {
-		fullscreenElement.requestFullscreen();
-	} else if (fullscreenElement.webkitRequestFullscreen) { /* Safari */
-		fullscreenElement.webkitRequestFullscreen();
-	} else if (fullscreenElement.msRequestFullscreen) { /* IE11 */
-		fullscreenElement.msRequestFullscreen();
-	}
+	let request = fullscreenElement.requestFullscreen || fullscreenElement.webkitRequestFullscreen || elem.mozRequestFullScreen || fullscreenElement.msRequestFullscreen;
+	request.call(fullscreenElement);
 }
 
 function closeFullscreen() {
 	if (!fullscreenElement) { return };
 
+	let request = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+	request.call(document);
+
 	isFullscreen = false;
-	
-	if (document.exitFullscreen) {
-		document.exitFullscreen();
-	} else if (document.webkitExitFullscreen) { /* Safari */
-		document.webkitExitFullscreen();
-	} else if (document.msExitFullscreen) { /* IE11 */
-		document.msExitFullscreen();
-	}
 }
 
 function toggleFullscreen() {
