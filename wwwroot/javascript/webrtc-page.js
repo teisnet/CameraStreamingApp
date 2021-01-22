@@ -1,6 +1,6 @@
 import config from '../config.js';
 import WowzaWebRTCPlay from '../lib/WowzaWebRTCPlay.js';
-
+import "./utils/videoframe.js";
 
 window.wowzaWebRTCPlay = new WowzaWebRTCPlay();
 wowzaWebRTCPlay.on({

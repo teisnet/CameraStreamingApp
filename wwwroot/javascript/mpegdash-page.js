@@ -1,4 +1,5 @@
 import config from '../config.js';
+import "./utils/videoframe.js";
 
 var player = videojs('mpegdash-video', {
 	autoplay: 'any',
