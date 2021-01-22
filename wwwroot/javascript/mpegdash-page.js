@@ -2,7 +2,7 @@ import config from '../config.js';
 import "./utils/videoframe.js";
 import './debug/debug.js';
 
-var player = videojs('mpegdash-video', {
+let player = videojs('mpegdash-video', {
 	autoplay: 'any',
 	// controls: true,
 	controlBar: {

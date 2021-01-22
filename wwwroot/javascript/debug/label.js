@@ -21,14 +21,14 @@ const elementsArray = [];
 
 function addLabel(query, name) {
 
-	var elements = $(query);
+	let elements = $(query);
 	elements.each(function(index) {
-		var element = $(this);
+		let element = $(this);
 		//console.log(element.attr("class"));
 		let width = element.width();
 		let height = element.height();
 		element.addClass("debug-parent");
-		var label = $(`<div class=\"debug-label\">${name}: ${width.toFixed(1)} x ${height.toFixed(1)}</div>`);
+		let label = $(`<div class=\"debug-label\">${name}: ${width.toFixed(1)} x ${height.toFixed(1)}</div>`);
 		label.appendTo(element);
 
 		elementsArray.push({ name: name, element: element, label: label});

@@ -1,5 +1,5 @@
 let isFullscreen = false;
-var fullscreenElement = null;
+let fullscreenElement = null;
 
 function openFullscreen() {
 	if (!fullscreenElement) { return };

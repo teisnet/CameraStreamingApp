@@ -2,7 +2,7 @@ import config from '../config.js';
 import "./utils/videoframe.js";
 import './debug/debug.js';
 
-var player = videojs('hls-video', {
+let player = videojs('hls-video', {
 	autoplay: 'any',
 	// controls: true,
 	controlBar: {
