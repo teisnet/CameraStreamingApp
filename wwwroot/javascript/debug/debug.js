@@ -1,6 +1,6 @@
 import addFullscreen from './fullscreen.js';
 import addLabel from './label.js';
-
+import './grid.js';
 
 //////// Labels ////////
 
