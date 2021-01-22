@@ -31,7 +31,6 @@ function toggleFullscreen() {
 			toggleFullscreen();
 		}
 	 });
- 
 	}
 
  export default addFullScreen;
