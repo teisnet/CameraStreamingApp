@@ -1,5 +1,5 @@
-# Scripts to create Azure Web App for the project
-When the Azure Web App is created, the project can be published online through Visual Studio.
+# Script to create Azure Web App for the project
+After running this Azure setup script everything is ready for the project to be published and viewed online.
 
 ## Prerequisites
 1) Either Linux or Windows with [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10) installed, including the [Ubuntu app](https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6).
@@ -24,11 +24,12 @@ When the Azure Web App is created, the project can be published online through V
 
     `$ ./run_azure_setup.sh`
 
-
-
 Output is logged to `azure_setup.log`, where you can find the website address and other useful information.
 
+## Publish the project to Azure
+Publish the project Azure using Visual Studio. Alternatively push the project to the Azure git deployment repository or set up GitHub Actions.
+
 ## Start logging
-When the project is running in Azure, logging can be started by the command:
+When the project is running in Azure, logging can be accessed locally with the command:
 
 `$ start_azure_logging.sh`
