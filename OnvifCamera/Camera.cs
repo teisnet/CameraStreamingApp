@@ -2,7 +2,7 @@
 
 namespace OnvifCamera
 {
-	public class Class1
+	public class Camera
 	{
 	}
 }
