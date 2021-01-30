@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 
 namespace OnvifCamera
 {
-	public class Camera
+	public class Camera : ICamera
 	{
 	}
 }
