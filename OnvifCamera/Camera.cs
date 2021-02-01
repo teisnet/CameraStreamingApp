@@ -11,6 +11,7 @@ namespace OnvifCamera
 		private int configHash;
 
 		public string Uri => config.Uri;
+		public string Name => config.Uri;
 
 		public Camera() { }
 

@@ -16,19 +16,18 @@ namespace OnvifCamera
 		}
 		public override int GetHashCode()
 		{
-			return Uri.GetHashCode(); // * 0x00010000 + Y;
+			// return Uri.GetHashCode(); // * 0x00010000 + Y;
 
 			// https://stackoverflow.com/questions/263400/what-is-the-best-algorithm-for-overriding-gethashcode
-			// 
-			// unchecked // Overflow is fine, just wrap
-			// {
-			//	int hash = 17;
-			//	// Suitable nullity checks etc, of course :)
-			//	hash = hash * 23 + field1.GetHashCode();
-			//	hash = hash * 23 + field2.GetHashCode();
-			//	hash = hash * 23 + field3.GetHashCode();
-			//	return hash;
-			// }
+
+			unchecked // Overflow is fine, just wrap
+			{
+				int hash = 17;
+				// Suitable nullity checks etc, of course :)
+				hash = hash * 23 + Uri.GetHashCode();
+				hash = hash * 23 + Name.GetHashCode();
+				return hash;
+			}
 		}
 
 		/*
