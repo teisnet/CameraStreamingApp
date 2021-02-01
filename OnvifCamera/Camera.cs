@@ -7,8 +7,8 @@ namespace OnvifCamera
 	public class Camera : ICamera
 	{
 		private readonly ILogger<Camera> logger;
-		private readonly IOptionsMonitor<CameraConfig> config;
-		public string Uri => config.CurrentValue.Uri;
+		CameraConfig config;
+		public string Uri => config.Uri;
 
 		public Camera() { }
 
@@ -16,7 +16,12 @@ namespace OnvifCamera
 		public Camera(IOptionsMonitor<CameraConfig> options, ILogger<Camera> logger)
 		{
 			this.logger = logger;
-			this.config = options;
+			this.config = options.CurrentValue;
+
+			options.OnChange(config => {
+				this.config = config;
+				logger.LogInformation("The camera configuration has been updated.");
+			});
 		}
 
 		public void Move()
