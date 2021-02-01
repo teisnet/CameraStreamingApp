@@ -34,7 +34,11 @@ namespace CameraStreamingApi
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "CameraStreamingApi", Version = "v1" });
 			});
 
-			services.AddSingleton<ICamera, Camera>();
+			services.Configure<CameraConfig>(Configuration.GetSection("Camera"));
+
+			services.AddCamera(config => {
+				config.Name = "Fjellebroen";
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
