@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnvifCamera
 {
-	public class CameraConfig
+	public partial class CameraConfig
 	{
 		public string Name { get; set; }
 

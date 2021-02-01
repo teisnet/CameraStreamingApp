@@ -8,6 +8,8 @@ namespace OnvifCamera
 	{
 		private readonly ILogger<Camera> logger;
 		CameraConfig config;
+		private int configHash;
+
 		public string Uri => config.Uri;
 
 		public Camera() { }
@@ -17,10 +19,26 @@ namespace OnvifCamera
 		{
 			this.logger = logger;
 			this.config = options.CurrentValue;
+			configHash = config.GetHashCode();
 
 			options.OnChange(config => {
 				this.config = config;
 				logger.LogInformation("The camera configuration has been updated.");
+
+				// For some reason OnChange is fired twice per update. Don't act if the config parameters is the same.
+				// See https://github.com/dotnet/aspnetcore/issues/2542
+				var newConfigHash = config.GetHashCode();
+
+				if (newConfigHash != configHash)
+				{
+					this.config = config;
+					configHash = newConfigHash;
+					logger.LogInformation("The camera configuration has been updated.");
+				}
+				else
+				{
+					logger.LogInformation("The camera configuration has not been changed.");
+				}
 			});
 		}
 
