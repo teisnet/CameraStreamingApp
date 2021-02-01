@@ -1,0 +1,7 @@
+{
+  "name": "onvifcamera",
+  "version": "0.0.1",
+  "dependencies": {
+    "onvif": "^0.6.4"
+  }
+}
