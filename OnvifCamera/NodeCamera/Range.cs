@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace NodeCameraLib
+namespace OnvifCamera
 {
 	/*
 	 * Range type: https://stackoverflow.com/questions/5343006/is-there-a-c-sharp-type-for-representing-an-integer-range

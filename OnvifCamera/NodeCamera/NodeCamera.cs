@@ -1,16 +1,13 @@
 using System;
 using System.Net;
-using System.Numerics;
 using System.Threading.Tasks;
 using System.Timers;
 using Microsoft.AspNetCore.NodeServices;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using OnvifCamera;
 using Microsoft.Extensions.Options;
 
-namespace NodeCameraLib
+namespace OnvifCamera
 {
 	/*
 	 * https://github.com/aspnet/JavaScriptServices/tree/master/src/Microsoft.AspNetCore.NodeServices

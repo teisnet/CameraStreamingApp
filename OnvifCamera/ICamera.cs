@@ -1,5 +1,4 @@
-﻿using NodeCameraLib;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace OnvifCamera

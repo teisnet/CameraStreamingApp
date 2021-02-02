@@ -1,15 +1,12 @@
-using NodeCameraLib;
-using OnvifCamera;
+﻿using OnvifCamera;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
 	public static class CameraCollectionExtensions
 	{
+		// https://csharp.christiannagel.com/2016/07/27/diwithoptions/amp/
+
 		public static IServiceCollection AddCamera(this IServiceCollection collection, Action<CameraConfig> setupAction)
 		{
 			if (collection == null) throw new ArgumentNullException(nameof(collection));

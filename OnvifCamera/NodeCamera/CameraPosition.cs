@@ -1,7 +1,6 @@
-﻿using System;
-using System.Numerics;
+using System;
 
-namespace NodeCameraLib
+namespace OnvifCamera
 {
 	public struct PtzValue
 	{
