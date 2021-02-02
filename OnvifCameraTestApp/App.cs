@@ -8,20 +8,20 @@ namespace OnvifCameraTestApp
 	public class App
 	{
 		private readonly ILogger<App> logger;
-		private readonly AppSettings appSettings;
+		private readonly CameraSettings cameraSettings;
 
-		public App(IOptions<AppSettings> appSettings, ILogger<App> logger)
+		public App(IOptions<CameraSettings> appSettings, ILogger<App> logger)
 		{
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger)); ;
-			this.appSettings = appSettings?.Value ?? throw new ArgumentNullException(nameof(appSettings));
+			this.logger = logger;
+			this.cameraSettings = appSettings.Value;
 		}
 
 		public async Task Run(string[] args)
 		{
-			logger.LogInformation("Starting...");
+			logger.LogInformation("ONVIF CAMERA TEST APP");
 
-			Console.WriteLine("Hello world!");
-			Console.WriteLine(appSettings.TempDirectory);
+			logger.LogInformation($"Camera name: {cameraSettings.Name}");
+			logger.LogInformation($"Camera uri: {cameraSettings.Uri}");
 		}
 	}
 }

@@ -1,7 +1,8 @@
 ﻿namespace OnvifCameraTestApp
 {
-	public class AppSettings
+	public class CameraSettings
 	{
-		public string TempDirectory { get; set; }
+		public string Name { get; set; }
+		public string Uri { get; set; }
 	}
 }

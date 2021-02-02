@@ -13,14 +13,9 @@ namespace OnvifCameraTestApp
 
 		static async Task Main(string[] args)
 		{
-			// Create service collection
 			var services = new ServiceCollection();
 			ConfigureServices(services);
-
-			// Create new service provider
 			var serviceProvider = services.BuildServiceProvider();
-
-			// Entry to run the app
 			await serviceProvider.GetService<App>().Run(args);
 		}
 
@@ -39,7 +34,7 @@ namespace OnvifCameraTestApp
 				.AddEnvironmentVariables()
 				.Build();
 
-			services.Configure<AppSettings>(configuration.GetSection("App"));
+			services.Configure<CameraSettings>(configuration.GetSection("Camera"));
 
 			// Add services
 			// services.AddTransient<IMyRepository, MyConcreteRepository>();
