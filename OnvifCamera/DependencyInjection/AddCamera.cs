@@ -7,19 +7,19 @@ namespace Microsoft.Extensions.DependencyInjection
 	{
 		// https://csharp.christiannagel.com/2016/07/27/diwithoptions/amp/
 
-		public static IServiceCollection AddCamera(this IServiceCollection collection, Action<CameraConfig> setupAction)
+		public static IServiceCollection AddCamera(this IServiceCollection services, Action<CameraConfig> setupCallback)
 		{
-			if (collection == null) throw new ArgumentNullException(nameof(collection));
-			if (setupAction == null) throw new ArgumentNullException(nameof(setupAction));
+			if (services == null) throw new ArgumentNullException(nameof(services));
+			if (setupCallback == null) throw new ArgumentNullException(nameof(setupCallback));
 
 			// Read configuration from callback method
-			collection.Configure(setupAction);
+			services.Configure(setupCallback);
 
-			collection.AddNodeServices(options => { });
+			services.AddNodeServices(options => { });
 
-			collection.AddSingleton<ICamera, Camera>();
+			services.AddSingleton<ICamera, Camera>();
 
-			return collection;
+			return services;
 		}
 	}
 }
