@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using OnvifCamera;
 
 namespace OnvifCameraTestApp
 {
@@ -34,10 +35,13 @@ namespace OnvifCameraTestApp
 				.AddEnvironmentVariables()
 				.Build();
 
-			services.Configure<CameraSettings>(configuration.GetSection("Camera"));
+			services.Configure<AppSettings>(configuration.GetSection("App"));
+			services.Configure<CameraConfig>(configuration.GetSection("Camera"));
 
 			// Add services
-			// services.AddTransient<IMyRepository, MyConcreteRepository>();
+			services.AddCamera(config => {
+				config.Name = "Hest";
+			});
 
 			// Add app
 			services.AddTransient<App>();
