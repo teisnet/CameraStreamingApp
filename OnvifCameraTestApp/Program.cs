@@ -1,12 +1,51 @@
 ﻿using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace OnvifCameraTestApp
 {
 	class Program
 	{
-		static void Main(string[] args)
+		// https://keestalkstech.com/2018/04/dependency-injection-with-ioptions-in-console-apps-in-net-core-2/
+
+		static async Task Main(string[] args)
 		{
-			Console.WriteLine("Hello World!");
+			// Create service collection
+			var services = new ServiceCollection();
+			ConfigureServices(services);
+
+			// Create new service provider
+			var serviceProvider = services.BuildServiceProvider();
+
+			// Entry to run the app
+			await serviceProvider.GetService<App>().Run(args);
+		}
+
+		private static void ConfigureServices(IServiceCollection services)
+		{
+			// Configure logging
+			services.AddLogging(configure => {
+				configure.AddConsole();
+				configure.AddDebug();
+			});
+
+			// Build configuration
+			var configuration = new ConfigurationBuilder()
+				.SetBasePath(Directory.GetCurrentDirectory())
+				.AddJsonFile("appsettings.json", optional: false)
+				.AddEnvironmentVariables()
+				.Build();
+
+			services.Configure<AppSettings>(configuration.GetSection("App"));
+
+			// Add services
+			// services.AddTransient<IMyRepository, MyConcreteRepository>();
+
+			// Add app
+			services.AddTransient<App>();
 		}
 	}
 }
