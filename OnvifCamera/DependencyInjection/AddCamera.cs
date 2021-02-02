@@ -1,4 +1,5 @@
-﻿using OnvifCamera;
+using NodeCameraLib;
+using OnvifCamera;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,12 @@ namespace Microsoft.Extensions.DependencyInjection
 
 			// Read configuration from callback method
 			collection.Configure(setupAction);
-			return collection.AddSingleton<ICamera, Camera>();
+
+			collection.AddNodeServices(options => { });
+
+			collection.AddSingleton<ICamera, Camera>();
+
+			return collection;
 		}
 	}
 }

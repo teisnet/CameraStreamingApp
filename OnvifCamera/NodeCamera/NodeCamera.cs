@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.NodeServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using OnvifCamera;
+using Microsoft.Extensions.Options;
 
 namespace NodeCameraLib
 {
@@ -15,7 +17,7 @@ namespace NodeCameraLib
 	 */
 
 
-	public class NodeCamera
+	public class Camera : ICamera
 	{
 
 		private INodeServices nodeService;
@@ -45,9 +47,7 @@ namespace NodeCameraLib
 
 		private JToken nodeOnvifCamera;
 
-		ILogger logger;
-
-		public ILogger Logger { get => this.logger; set => this.logger = value; }
+		private readonly ILogger<Camera> logger;
 
 		public dynamic Capabilities { get; set; }
 		public dynamic VideoSources { get; set; }
@@ -55,8 +55,8 @@ namespace NodeCameraLib
 		public dynamic DefaultProfile { get; set; }
 		public dynamic ActiveSource { get; set; }
 
-		public string Name { get; }
-		public UriBuilder Uri { get; }
+		public string Name => config.Name;
+		public string Uri => config.Uri; // UriBuilder?
 
 		public PtzRange Range;
 
@@ -64,25 +64,44 @@ namespace NodeCameraLib
 		public event EventHandler Moving;
 		public event EventHandler StatusChanged;
 
+		CameraConfig config;
+		private int configHash;
 
 
-		public NodeCamera(string name, UriBuilder uri)
+		public Camera() { }
+
+		// The dependency injection container will automatically use this constructor.
+		public Camera(IOptionsMonitor<CameraConfig> options, ILogger<Camera> logger, INodeServices nodeServices)
 		{
-			this.Name = name;
-			this.Uri = uri;
-			nodeService = CreateNodeService();
+			this.logger = logger;
+			this.config = options.CurrentValue;
+			configHash = config.GetHashCode();
+
+			options.OnChange(config =>
+			{
+				// For some reason OnChange is fired twice per update. Don't act if the config parameters is the same.
+				// See https://github.com/dotnet/aspnetcore/issues/2542
+				var newConfigHash = config.GetHashCode();
+
+				if (newConfigHash != configHash)
+				{
+					this.config = config;
+					configHash = newConfigHash;
+					logger.LogInformation("The camera configuration has been updated.");
+
+					OnConfigChange();
+				}
+			});
+
+
+			this.nodeService = nodeServices;
 
 			this.heartbeatTimer.Elapsed += (sender, e) => this.Connect();
 			this.statusTimer.Elapsed += (sender, e) => this.UpdateStatus();
 		}
 
-		// Comply with dependency injection paradigm
-		private INodeServices CreateNodeService()
+		private void OnConfigChange()
 		{
-			var services = new ServiceCollection();
-			services.AddNodeServices(options => { });
-			var serviceProvider = services.BuildServiceProvider();
-			return serviceProvider.GetRequiredService<INodeServices>();
 		}
 
 		private async Task<bool> Init()
@@ -93,7 +112,7 @@ namespace NodeCameraLib
 			{
 				// Create new node instance
 				// TODO: Handle failed initialization, eg. no when there is connection to the camera
-				nodeOnvifCamera = await Call<JToken>("init", Uri.Host, Uri.Port, Uri.UserName, Uri.Password);
+				nodeOnvifCamera = await Call<JToken>("init", config.Uri, config.Port, config.Username, config.Password);
 			}
 			else
 			{
@@ -285,8 +304,8 @@ namespace NodeCameraLib
 			string uriString = await Call<string>("getSnapshot");
 			// Note that username password is not set
 			UriBuilder snapshotUri = new UriBuilder(uriString);
-			snapshotUri.Host = this.Uri.Host;
-			snapshotUri.Port = this.Uri.Port;
+			snapshotUri.Host = config.Uri;
+			snapshotUri.Port = config.Port;
 			return snapshotUri;
 		}
 
@@ -300,7 +319,7 @@ namespace NodeCameraLib
 			using (var client = new WebClient())
 			{
 				// Set credentials explicitly, as the WebClient does not use the credentials from the UriBuilder
-				client.Credentials = new NetworkCredential(this.Uri.UserName, this.Uri.Password);
+				client.Credentials = new NetworkCredential(config.Username, config.Password);
 
 				try
 				{
@@ -332,7 +351,7 @@ namespace NodeCameraLib
 
 		public async Task MoveTo(CameraPosition position)
 		{
-			Logger.LogInformation("MoveTo: " + position.ToString());
+			logger.LogInformation("MoveTo: " + position.ToString());
 			this.moveTarget = position;
 			// TODO: Test for callback error when offline
 			// Camera move operations order: x, zoom, y
@@ -341,7 +360,7 @@ namespace NodeCameraLib
 			this.statusTimer.Start();
 		}
 
-		~NodeCamera()
+		~Camera()
 		{
 			this.Disable();
 			logger?.LogInformation("Deleted");
