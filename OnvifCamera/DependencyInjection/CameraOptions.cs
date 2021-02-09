@@ -4,6 +4,7 @@ namespace OnvifCamera
 	{
 		public string Name { get; set; }
 		public string Uri { get; set; }
+		public string Slug { get; set; }
 		// The web port number is used for snapshot image download.
 		public int OnvifPort { get; set; }
 		public int WebPort { get; set; }
