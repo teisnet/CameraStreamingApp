@@ -109,7 +109,7 @@ namespace OnvifCamera
 			{
 				// Create new node instance
 				// TODO: Handle failed initialization, eg. no when there is connection to the camera
-				nodeOnvifCamera = await Call<JToken>("init", config.Uri, config.Port, config.Username, config.Password);
+				nodeOnvifCamera = await Call<JToken>("init", config.Uri, config.OnvifPort, config.Username, config.Password);
 			}
 			else
 			{
@@ -302,7 +302,7 @@ namespace OnvifCamera
 			// Note that username password is not set
 			UriBuilder snapshotUri = new UriBuilder(uriString);
 			snapshotUri.Host = config.Uri;
-			snapshotUri.Port = config.Port;
+			snapshotUri.Port = config.WebPort;
 			return snapshotUri;
 		}
 
