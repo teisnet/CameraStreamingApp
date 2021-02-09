@@ -37,7 +37,7 @@ namespace CameraStreamingApi
 			services.Configure<CameraConfig>(Configuration.GetSection("Camera"));
 
 			services.AddCamera(config => {
-				config.Name = "Fjellebroen";
+				// config.CurrentCamera = "Fjellebroen";
 			});
 		}
 

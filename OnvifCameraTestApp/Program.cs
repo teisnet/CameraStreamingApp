@@ -40,7 +40,7 @@ namespace OnvifCameraTestApp
 
 			// Add services
 			services.AddCamera(config => {
-				config.Name = "Hest";
+				// config.CurrentCamera = "Fjellebroen";
 			});
 
 			// Add app
