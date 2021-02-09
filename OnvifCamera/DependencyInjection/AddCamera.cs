@@ -1,4 +1,4 @@
-﻿using OnvifCamera;
+using OnvifCamera;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -15,7 +15,10 @@ namespace Microsoft.Extensions.DependencyInjection
 			// Read configuration from callback method
 			services.Configure(setupCallback);
 
-			services.AddNodeServices(options => { });
+			services.AddNodeServices(options => {
+				options.LaunchWithDebugging = true;
+				options.DebuggingPort = 9229;
+			});
 
 			services.AddSingleton<ICamera, Camera>();
 
