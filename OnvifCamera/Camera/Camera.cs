@@ -68,13 +68,13 @@ namespace OnvifCamera
 		public Camera() { }
 
 		// The dependency injection container will automatically use this constructor.
-		public Camera(IOptionsMonitor<CameraConfig> options, ILogger<Camera> logger, INodeServices nodeServices)
+		public Camera(IOptionsMonitor<CameraConfig> config, ILogger<Camera> logger, INodeServices nodeServices)
 		{
 			this.logger = logger;
-			this.config = options.CurrentValue;
-			configHash = config.GetHashCode();
+			this.config = config.CurrentValue;
+			this.configHash = this.config.GetHashCode();
 
-			options.OnChange(config =>
+			config.OnChange(config =>
 			{
 				// For some reason OnChange is fired twice per update. Don't act if the config parameters is the same.
 				// See https://github.com/dotnet/aspnetcore/issues/2542
