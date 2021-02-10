@@ -27,25 +27,16 @@ namespace OnvifCamera
 
 		/// <summary>Presents the Range in readable format.</summary>
 		/// <returns>String representation of the Range</returns>
-		public override string ToString()
-		{
-			return string.Format("[{0} - {1}]", this.Min, this.Max);
-		}
+		public override string ToString() => $"[{Min} - {Max}]";
 
 		/// <summary>Determines if the range is valid.</summary>
 		/// <returns>True if range is valid, else false</returns>
-		public bool IsValid()
-		{
-			return this.Min.CompareTo(this.Max) <= 0;
-		}
+		public bool IsValid() => Min.CompareTo(Max) <= 0;
 
 		/// <summary>Determines if the provided value is inside the range.</summary>
 		/// <param name="value">The value to test</param>
 		/// <returns>True if the value is inside Range, else false</returns>
-		public bool ContainsValue(T value)
-		{
-			return (this.Min.CompareTo(value) <= 0) && (value.CompareTo(this.Max) <= 0);
-		}
+		public bool ContainsValue(T value) => (Min.CompareTo(value) <= 0) && (value.CompareTo(Max) <= 0);
 
 		public T Confine(T value)
 		{
