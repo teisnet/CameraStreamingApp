@@ -317,7 +317,7 @@ namespace OnvifCamera
 		{
 			// Formatting DateTime: https://stackoverflow.com/questions/7898392/append-timestamp-to-a-file-name
 
-			string filename = $"snapshot_{this.Name}-{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.jpg";
+			string filename = $"snapshot_{config.Slug}_{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.jpg";
 			UriBuilder uri = await GetSnapshotUri();
 
 			using (var client = new WebClient())
