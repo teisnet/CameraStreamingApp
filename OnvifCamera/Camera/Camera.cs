@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using System.Threading.Tasks;
 using System.Timers;
 using Microsoft.AspNetCore.NodeServices;
@@ -9,19 +8,8 @@ using Microsoft.Extensions.Options;
 
 namespace OnvifCamera
 {
-	/*
-	 * https://github.com/aspnet/JavaScriptServices/tree/master/src/Microsoft.AspNetCore.NodeServices
-	 */
-
-
-	public class Camera : ICamera
+	public class Camera : CameraBase, ICamera
 	{
-
-		private INodeServices nodeService;
-
-		private string nodeFilename = "./node-camera.js";
-
-
 		// Timers
 		private Timer heartbeatTimer = new Timer(7000);
 		private Timer statusTimer = new Timer(100);
@@ -44,7 +32,6 @@ namespace OnvifCamera
 
 		private JToken nodeOnvifCamera;
 
-		private readonly ILogger<Camera> logger;
 
 		public dynamic Capabilities { get; set; }
 		public dynamic VideoSources { get; set; }
@@ -52,62 +39,24 @@ namespace OnvifCamera
 		public dynamic DefaultProfile { get; set; }
 		public dynamic ActiveSource { get; set; }
 
-		public string Name => config.Name;
-		public string Uri => config.Uri; // UriBuilder?
-
 		public PtzRange Range;
 
 		// Events
 		public event EventHandler Moving;
 		public event EventHandler StatusChanged;
 
-		CameraConfig config;
-		private int configHash;
-
-
-		public Camera() {
-			// TODO's
-			// Create logger manually
-		}
-
-		// The dependency injection container will automatically use this constructor.
 		public Camera(IOptionsMonitor<CameraConfig> config, ILogger<Camera> logger, INodeServices nodeServices)
-		{
-			this.logger = logger;
-			this.config = config.CurrentValue;
-			this.configHash = this.config.GetHashCode();
-
-			// This event is fired when the camera settings in appsetting.json are changed.
-			config.OnChange(config =>
-			{
-				// For some reason OnChange is fired twice per change. Don't act if the config properties haven't changed.
-				// See https://github.com/dotnet/aspnetcore/issues/2542
-				var newConfigHash = config.GetHashCode();
-
-				if (newConfigHash != configHash)
-				{
-					this.config = config;
-					configHash = newConfigHash;
-					logger.LogInformation("The camera configuration has been updated.");
-
-					OnConfigChange();
-				}
-			});
-
-
-			this.nodeService = nodeServices;
-
-			this.heartbeatTimer.Elapsed += (sender, e) => this.Connect();
-			this.statusTimer.Elapsed += (sender, e) => this.UpdateStatus();
-		}
-
-		private void OnConfigChange()
+			: base(config, logger, nodeServices)
 		{
 		}
 
 		private async Task<bool> Init()
 		{
 			if (this.isInitialized) return true;
+
+			// TODO: Only attach handlers if not already attached.
+			this.heartbeatTimer.Elapsed += (sender, e) => this.Connect();
+			this.statusTimer.Elapsed += (sender, e) => this.UpdateStatus();
 
 			if (nodeOnvifCamera == null)
 			{
@@ -299,61 +248,6 @@ namespace OnvifCamera
 		{
 			logger.LogInformation("AbsoluteMove: " + position.ToString());
 			return await Call<bool>("absoluteMove", position);
-		}
-
-		private async Task<Uri> GetSnapshotUri()
-		{
-			string uriString = await Call<string>("getSnapshot");
-
-			UriBuilder snapshotUri = new UriBuilder(uriString);
-
-			// Replace host and port values as they might be LAN specific values.
-			snapshotUri.Host = config.Uri;
-			snapshotUri.Port = config.WebPort;
-			snapshotUri.UserName = config.Username;
-			snapshotUri.Password = config.Password;
-
-			return snapshotUri.Uri;
-		}
-
-		/// <summary>
-		/// Downloads a snapshot from the camera.
-		/// </summary>
-		/// <returns>Filename of the downloaded snapshot image.</returns>
-		public async Task<string> GetSnapshot()
-		{
-			// Formatting DateTime: https://stackoverflow.com/questions/7898392/append-timestamp-to-a-file-name
-
-			string filename = $"snapshot_{config.Slug}_{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.jpg";
-			Uri uri = await GetSnapshotUri();
-
-			using (var client = new WebClient())
-			{
-				try
-				{
-					await client.DownloadFileTaskAsync(uri, filename);
-				}
-				catch (Exception e)
-				{
-					logger.LogError($"Could not download snapshot from {uri.Scheme}://{uri.Host}:{uri.Port}{uri.PathAndQuery} (credentials are omitted here)");
-					return default;
-				}
-			}
-
-			return filename;
-		}
-
-		private async Task<T> Call<T>(string function, params object[] args)
-		{
-			try
-			{
-				return await nodeService.InvokeExportAsync<T>(nodeFilename, function, args);
-			}
-			catch (Exception e)
-			{
-				logger.LogError(e, $"Error when calling Node function '{function}()': " + e.InnerException.Message ?? e.Message);
-				return default(T);
-			}
 		}
 
 		public async Task MoveTo(CameraPosition position)
