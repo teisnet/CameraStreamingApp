@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -24,7 +24,8 @@ namespace OnvifCameraTestApp
 		{
 			// Configure logging
 			services.AddLogging(configure => {
-				configure.AddConsole();
+				configure.AddSimpleConsole(c =>
+					c.SingleLine = true);
 				configure.AddDebug();
 			});
 
