@@ -304,8 +304,10 @@ namespace OnvifCamera
 		public async Task<UriBuilder> GetSnapshotUri()
 		{
 			string uriString = await Call<string>("getSnapshot");
-			// Note that username password is not set
+			// Note that username and password are not set here
 			UriBuilder snapshotUri = new UriBuilder(uriString);
+
+			// Replace host and port values as they might be LAN specific values.
 			snapshotUri.Host = config.Uri;
 			snapshotUri.Port = config.WebPort;
 			return snapshotUri;
