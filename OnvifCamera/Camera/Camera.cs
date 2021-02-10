@@ -65,7 +65,10 @@ namespace OnvifCamera
 		private int configHash;
 
 
-		public Camera() { }
+		public Camera() {
+			// TODO's
+			// Create logger manually
+		}
 
 		// The dependency injection container will automatically use this constructor.
 		public Camera(IOptionsMonitor<CameraConfig> config, ILogger<Camera> logger, INodeServices nodeServices)
@@ -158,7 +161,7 @@ namespace OnvifCamera
 			if (this.isEnabled) return;
 			this.isEnabled = true;
 
-			logger?.LogInformation("Enabled");
+			logger.LogInformation("Enabled");
 
 			// In case camera is not online, emit 'enabled' at least.
 			OnStatusChanged(/*isEnabled*/);
@@ -182,7 +185,7 @@ namespace OnvifCamera
 				OnStatusChanged(/*isEnabled*/);
 			}
 
-			logger?.LogInformation("Disabled");
+			logger.LogInformation("Disabled");
 		}
 
 		private async Task Connect()
@@ -198,7 +201,7 @@ namespace OnvifCamera
 				}
 				catch (Exception e)
 				{
-					logger?.LogError(e, "Could not connect to camera using ONVIF");
+					logger.LogError(e, "Could not connect to camera using ONVIF");
 					return;
 				}
 				finally
@@ -217,7 +220,7 @@ namespace OnvifCamera
 			if (this.isOnline == value) return;
 			this.isOnline = value;
 
-			logger?.LogInformation(this.isOnline ? "Connected" : "Disconnected");
+			logger.LogInformation(this.isOnline ? "Connected" : "Disconnected");
 
 			OnStatusChanged(/*isOnline*/);
 		}
@@ -343,7 +346,7 @@ namespace OnvifCamera
 			}
 			catch (Exception e)
 			{
-				logger?.LogError(e, $"Error when calling Node function '{function}()': " + e.InnerException.Message ?? e.Message);
+				logger.LogError(e, $"Error when calling Node function '{function}()': " + e.InnerException.Message ?? e.Message);
 				return default(T);
 			}
 		}
@@ -362,7 +365,7 @@ namespace OnvifCamera
 		~Camera()
 		{
 			this.Disable();
-			logger?.LogInformation("Deleted");
+			logger.LogInformation("Deleted");
 		}
 
 		// Events
