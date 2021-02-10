@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using OnvifCamera;
+using System.Globalization;
 
 namespace OnvifCameraTestApp
 {
@@ -16,6 +17,7 @@ namespace OnvifCameraTestApp
 		{
 			var services = new ServiceCollection();
 			ConfigureServices(services);
+			Configure();
 			var serviceProvider = services.BuildServiceProvider();
 			await serviceProvider.GetService<App>().Run(args);
 		}
@@ -46,6 +48,14 @@ namespace OnvifCameraTestApp
 
 			// Add app
 			services.AddTransient<App>();
+		}
+
+		private static void Configure()
+		{
+			// Don't use commas when outputting float values.
+			var cultureInfo = new CultureInfo("en-US");
+			CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+			CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 		}
 	}
 }

@@ -294,6 +294,7 @@ namespace OnvifCamera
 
 		public async Task<bool> AbsoluteMove(PtzValue position)
 		{
+			logger.LogInformation("AbsoluteMove: " + position.ToString());
 			return await Call<bool>("absoluteMove", position);
 		}
 

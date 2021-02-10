@@ -7,6 +7,8 @@ namespace OnvifCamera
 		public float X;
 		public float Y;
 		public float Zoom;
+
+		public override string ToString() => $"(X={X:0.00}, Y={Y:0.00}, Zoom={Zoom:0.0}]";
 	}
 
 
