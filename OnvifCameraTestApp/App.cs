@@ -45,7 +45,7 @@ namespace OnvifCameraTestApp
 
 		private async Task TestCamera()
 		{
-			camera.Enable();
+			await camera.Enable();
 
 			Console.WriteLine("Press key");
 
