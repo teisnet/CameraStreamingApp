@@ -74,9 +74,10 @@ namespace OnvifCamera
 			this.config = config.CurrentValue;
 			this.configHash = this.config.GetHashCode();
 
+			// This event is fired when the camera settings in appsetting.json are changed.
 			config.OnChange(config =>
 			{
-				// For some reason OnChange is fired twice per update. Don't act if the config parameters is the same.
+				// For some reason OnChange is fired twice per change. Don't act if the config properties haven't changed.
 				// See https://github.com/dotnet/aspnetcore/issues/2542
 				var newConfigHash = config.GetHashCode();
 
