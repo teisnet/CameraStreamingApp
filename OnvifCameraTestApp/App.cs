@@ -48,12 +48,25 @@ namespace OnvifCameraTestApp
 			await camera.Enable();
 
 			Console.WriteLine("Press key");
+			Console.WriteLine("S: Snapshot, 1: (x=0,y=0,zoom=1), 2:(x=0,y=1,zoom=1), 3:(x=1,y=1,zoom=1)");
 
 			while (true)
 			{
 				var key = Console.ReadKey(true);
 				switch (Char.ToLower(key.KeyChar))
 				{
+					case '1':
+						Console.WriteLine("Moving to { X = 0, Y = 0, Zoom = 1 }");
+						await camera.AbsoluteMove(new PtzValue { X = 0, Y = 0, Zoom = 1 });
+						break;
+					case '2':
+						Console.WriteLine("Moving to { X = 0, Y = 1, Zoom = 1 }");
+						await camera.AbsoluteMove(new PtzValue { X = 0, Y = 1, Zoom = 1 });
+						break;
+					case '3':
+						Console.WriteLine("Moving to { X = 1, Y = 1, Zoom = 1 }");
+						await camera.AbsoluteMove(new PtzValue { X = 1, Y = 1, Zoom = 1 });
+						break;
 					case 's':
 						string snatshotUri = await camera.GetSnapshot();
 						Console.WriteLine($"SnapshotUri = {snatshotUri}");
@@ -70,6 +83,8 @@ namespace OnvifCameraTestApp
 						break;
 
 				}
+
+				Console.WriteLine("Done");
 			}
 		}
 	}
