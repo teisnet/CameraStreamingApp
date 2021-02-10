@@ -301,39 +301,42 @@ namespace OnvifCamera
 			return await Call<bool>("absoluteMove", position);
 		}
 
-		public async Task<UriBuilder> GetSnapshotUri()
+		private async Task<Uri> GetSnapshotUri()
 		{
 			string uriString = await Call<string>("getSnapshot");
-			// Note that username and password are not set here
+
 			UriBuilder snapshotUri = new UriBuilder(uriString);
 
 			// Replace host and port values as they might be LAN specific values.
 			snapshotUri.Host = config.Uri;
 			snapshotUri.Port = config.WebPort;
-			return snapshotUri;
+			snapshotUri.UserName = config.Username;
+			snapshotUri.Password = config.Password;
+
+			return snapshotUri.Uri;
 		}
 
+		/// <summary>
+		/// Downloads a snapshot from the camera.
+		/// </summary>
+		/// <returns>Filename of the downloaded snapshot image.</returns>
 		public async Task<string> GetSnapshot()
 		{
 			// Formatting DateTime: https://stackoverflow.com/questions/7898392/append-timestamp-to-a-file-name
 
 			string filename = $"snapshot_{config.Slug}_{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.jpg";
-			UriBuilder uri = await GetSnapshotUri();
+			Uri uri = await GetSnapshotUri();
 
 			using (var client = new WebClient())
 			{
-				// Set credentials explicitly, as the WebClient does not use the credentials from the UriBuilder
-				client.Credentials = new NetworkCredential(config.Username, config.Password);
-
 				try
 				{
-					await client.DownloadFileTaskAsync(uri.Uri, filename);
+					await client.DownloadFileTaskAsync(uri, filename);
 				}
 				catch (Exception e)
 				{
-					// Make sure username and password is not included in error message
-					logger.LogError(e, "Could not download snapshot from {uri.Uri}");
-					return null;
+					logger.LogError($"Could not download snapshot from {uri.Scheme}://{uri.Host}:{uri.Port}{uri.PathAndQuery} (credentials are omitted here)");
+					return default;
 				}
 			}
 

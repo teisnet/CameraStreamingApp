@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 
 namespace OnvifCamera
@@ -20,7 +20,6 @@ namespace OnvifCamera
 		void Disable();
 		Task Enable();
 		Task<string> GetSnapshot();
-		Task<UriBuilder> GetSnapshotUri();
 		Task MoveTo(CameraPosition position);
 	}
 }
