@@ -15,5 +15,6 @@ namespace OnvifCamera
 		Task<bool> AbsoluteMove(PtzValue position);
 		public bool IsEnabled { get; }
 		public bool IsOnline { get; }
+		public CameraStatus Status { get; }
 	}
 }

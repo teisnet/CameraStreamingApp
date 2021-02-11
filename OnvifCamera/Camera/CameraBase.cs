@@ -15,6 +15,7 @@ namespace OnvifCamera
 	{
 		public bool IsEnabled { get; protected set; }
 		public bool IsOnline { get; protected set; }
+		public CameraStatus Status { get => new(IsEnabled, IsOnline); }
 
 
 		private INodeServices nodeService;
