@@ -4,6 +4,13 @@ namespace OnvifCamera
 {
 	public struct PtzValue
 	{
+		public PtzValue(float X, float Y, float Zoom)
+		{
+			this.X = X;
+			this.Y = Y;
+			this.Zoom = Zoom;
+		}
+
 		public float X;
 		public float Y;
 		public float Zoom;
