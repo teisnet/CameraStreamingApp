@@ -110,7 +110,7 @@ namespace OnvifCamera
 			if (this.isEnabled) return;
 			this.isEnabled = true;
 
-			logger.LogInformation("Enabled");
+			logger.LogInformation($"Camera[{Name}]: Enabled");
 
 			// In case camera is not online, emit 'enabled' at least.
 			OnStatusChanged(/*isEnabled*/);
@@ -134,7 +134,7 @@ namespace OnvifCamera
 				OnStatusChanged(/*isEnabled*/);
 			}
 
-			logger.LogInformation("Disabled");
+			logger.LogInformation($"Camera[{Name}]: Disabled");
 		}
 
 		private async Task Connect()
@@ -150,7 +150,7 @@ namespace OnvifCamera
 				}
 				catch (Exception e)
 				{
-					logger.LogError(e, "Could not connect to camera using ONVIF");
+					logger.LogError(e, $"Camera[{Name}]: Could not connect to camera using ONVIF");
 					return;
 				}
 				finally
@@ -169,7 +169,7 @@ namespace OnvifCamera
 			if (this.isOnline == value) return;
 			this.isOnline = value;
 
-			logger.LogInformation(this.isOnline ? "Connected" : "Disconnected");
+			logger.LogInformation($"Camera[{Name}]: {(isOnline ? "Connected" : "Disconnected")}");
 
 			OnStatusChanged(/*isOnline*/);
 		}
@@ -190,7 +190,7 @@ namespace OnvifCamera
 			}
 			catch (Exception e)
 			{
-				logger.LogError(e, "Could not update status");
+				logger.LogError(e, $"Camera[{Name}]: Could not update status");
 				// TODO: Check exception message
 				this.SetOnline(false);
 				return;
@@ -236,7 +236,7 @@ namespace OnvifCamera
 					else
 					{
 						// Consider what scenarios this point is reached
-						logger.LogWarning("The camera has stopped moving before reaching its target");
+						logger.LogWarning($"Camera[{Name}]: The camera has stopped moving before reaching its target");
 						// TODO: Implement repeat limit and error reporting
 						await this.MoveTo(this.moveTarget);
 					}
@@ -252,7 +252,7 @@ namespace OnvifCamera
 
 		public async Task MoveTo(CameraPosition position)
 		{
-			logger.LogInformation("MoveTo: " + position.ToString());
+			logger.LogInformation($"Camera[{Name}]: MoveTo: " + position.ToString());
 			this.moveTarget = position;
 			// TODO: Test for callback error when offline
 			// Camera move operations order: x, zoom, y
@@ -264,7 +264,7 @@ namespace OnvifCamera
 		~Camera()
 		{
 			this.Disable();
-			logger.LogInformation("Deleted");
+			logger.LogInformation($"Camera[{Name}]: Deleted");
 		}
 
 		// Events

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.NodeServices;
+using Microsoft.AspNetCore.NodeServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -48,7 +48,7 @@ namespace OnvifCamera
 				{
 					this.config = config;
 					configHash = newConfigHash;
-					logger.LogInformation("The camera configuration has been updated.");
+					logger.LogInformation($"Camera[{Name}]: The camera configuration has been updated.");
 
 					OnConfigChange();
 				}
@@ -69,7 +69,7 @@ namespace OnvifCamera
 			}
 			catch (Exception e)
 			{
-				logger.LogError(e, $"Error when calling Node function '{function}()': " + e.InnerException.Message ?? e.Message);
+				logger.LogError(e, $"Camera[{Name}]: Error when calling Node function '{function}()': " + e.InnerException.Message ?? e.Message);
 				return default;
 			}
 		}
@@ -108,7 +108,7 @@ namespace OnvifCamera
 				}
 				catch (Exception e)
 				{
-					logger.LogError($"Could not download snapshot from {uri.Scheme}://{uri.Host}:{uri.Port}{uri.PathAndQuery} (credentials are omitted here)");
+					logger.LogError($"Camera[{Name}]: Could not download snapshot from {uri.Scheme}://{uri.Host}:{uri.Port}{uri.PathAndQuery} (credentials are omitted here)");
 					return default;
 				}
 			}
