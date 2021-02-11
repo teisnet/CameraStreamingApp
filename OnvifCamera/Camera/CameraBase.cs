@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.NodeServices;
+﻿using Microsoft.AspNetCore.NodeServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -14,6 +14,9 @@ namespace OnvifCamera
 	public class CameraBase
 	{
 		public string Name => config.Name;
+
+		// iSInitialized should never be set back to false after setting it to true.
+		protected bool isInitialized = false;
 
 		public bool IsEnabled { get; protected set; }
 		public bool IsOnline { get; protected set; }

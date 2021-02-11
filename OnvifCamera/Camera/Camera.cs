@@ -16,7 +16,6 @@ namespace OnvifCamera
 		private Timer statusTimer = new Timer(100);
 
 		// Camera state fields
-		private bool isInitialized = false;
 
 		private JToken nodeOnvifCamera;
 
