@@ -113,7 +113,7 @@ namespace OnvifCamera
 			logger.LogInformation($"Camera[{Name}]: Enabled");
 
 			// In case camera is not online, emit 'enabled' at least.
-			OnStatusChanged(/*isEnabled*/);
+			PublishStatusChanged(/*isEnabled*/);
 
 			await Connect();
 			heartbeatTimer.Start();
@@ -131,7 +131,7 @@ namespace OnvifCamera
 			}
 			else
 			{
-				OnStatusChanged(/*isEnabled*/);
+				PublishStatusChanged(/*isEnabled*/);
 			}
 
 			logger.LogInformation($"Camera[{Name}]: Disabled");
@@ -171,7 +171,7 @@ namespace OnvifCamera
 
 			logger.LogInformation($"Camera[{Name}]: {(isOnline ? "Connected" : "Disconnected")}");
 
-			OnStatusChanged(/*isOnline*/);
+			PublishStatusChanged(/*isOnline*/);
 		}
 
 		// Consider case when camera hasn't startet moving yet. Consider 'settle' period.
@@ -274,7 +274,7 @@ namespace OnvifCamera
 			Moving?.Invoke(this, EventArgs.Empty);
 		}
 
-		protected void OnStatusChanged()
+		protected void PublishStatusChanged()
 		{
 			// Enabled
 			StatusChanged?.Invoke(this, EventArgs.Empty);
