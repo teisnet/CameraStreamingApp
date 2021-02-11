@@ -95,6 +95,11 @@ namespace OnvifCamera
 		/// <returns>Filename of the downloaded snapshot image.</returns>
 		public async Task<string> GetSnapshot()
 		{
+			if (!isInitialized)
+			{
+				throw new InvalidOperationException($"Cannot get snapshot when camera {Name} is not yet initialized.");
+			}
+
 			// Formatting DateTime: https://stackoverflow.com/questions/7898392/append-timestamp-to-a-file-name
 
 			string filename = $"snapshot_{config.Slug}_{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.jpg";
