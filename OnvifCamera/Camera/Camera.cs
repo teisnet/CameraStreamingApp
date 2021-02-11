@@ -76,7 +76,7 @@ namespace OnvifCamera
 			DefaultProfile = nodeOnvifCamera["defaultProfile"].ToObject<dynamic>();
 			ActiveSource = nodeOnvifCamera["activeSource"].ToObject<dynamic>();
 
-			dynamic ptzConfiguration = this.DefaultProfile.PTZConfiguration;
+			dynamic ptzConfiguration = DefaultProfile.PTZConfiguration;
 
 
 			dynamic zoomLimits = ptzConfiguration.zoomLimits.range.XRange;
@@ -89,45 +89,45 @@ namespace OnvifCamera
 			float yMin = panTiltLimits.YRange.min.ToObject<float>();
 			float yMax = panTiltLimits.YRange.max.ToObject<float>();
 
-			this.Range = new PtzRange()
+			Range = new PtzRange()
 			{
 				X = new Range<float>(xMin, xMax),
 				Y = new Range<float>(yMin, yMax),
 				Zoom = new Range<float>(zoomMin, zoomMax)
 			};
 
-			this.moveTarget = new CameraPosition(this.Range);
-			this.position = new CameraPosition(this.Range);
-			this.previousPosition = new CameraPosition(this.Range);
+			moveTarget = new CameraPosition(Range);
+			position = new CameraPosition(Range);
+			previousPosition = new CameraPosition(Range);
 
-			this.isInitialized = true;
+			isInitialized = true;
 
-			return this.isInitialized;
+			return isInitialized;
 		}
 
 		public async Task Enable()
 		{
-			if (this.isEnabled) return;
-			this.isEnabled = true;
+			if (isEnabled) { return; }
+			isEnabled = true;
 
 			logger.LogInformation($"Camera[{Name}]: Enabled");
 
 			// In case camera is not online, emit 'enabled' at least.
 			OnStatusChanged(/*isEnabled*/);
 
-			await this.Connect();
-			this.heartbeatTimer.Start();
+			await Connect();
+			heartbeatTimer.Start();
 		}
 
 		public void Disable()
 		{
-			if (!this.isEnabled) return;
-			this.isEnabled = false;
+			if (!isEnabled) { return; }
+			isEnabled = false;
 			// TODO: Stop any movements in progress
-			this.heartbeatTimer.Stop();
-			if (this.isOnline)
+			heartbeatTimer.Stop();
+			if (isOnline)
 			{
-				this.SetOnline(false);
+				SetOnline(false);
 			}
 			else
 			{
@@ -139,13 +139,13 @@ namespace OnvifCamera
 
 		private async Task Connect()
 		{
-			if (this.pendingConnect || this.pendingStatus) return;
+			if (pendingConnect || pendingStatus) { return; }
 
-			if (!this.isInitialized)
+			if (!isInitialized)
 			{
 				try
 				{
-					this.pendingConnect = true;
+					pendingConnect = true;
 					await Init();
 				}
 				catch (Exception e)
@@ -155,19 +155,19 @@ namespace OnvifCamera
 				}
 				finally
 				{
-					this.pendingConnect = false;
+					pendingConnect = false;
 				}
 			}
 
-			this.SetOnline(true);
+			SetOnline(true);
 
-			await this.UpdateStatus();
+			await UpdateStatus();
 		}
 
 		private void SetOnline(bool value)
 		{
-			if (this.isOnline == value) return;
-			this.isOnline = value;
+			if (isOnline == value) { return; }
+			isOnline = value;
 
 			logger.LogInformation($"Camera[{Name}]: {(isOnline ? "Connected" : "Disconnected")}");
 
@@ -177,7 +177,7 @@ namespace OnvifCamera
 		// Consider case when camera hasn't startet moving yet. Consider 'settle' period.
 		private async Task UpdateStatus()
 		{
-			if (this.pendingStatus || !this.isInitialized) return;
+			if (pendingStatus || !isInitialized) return;
 
 			// TODO: Consider replacement by thread 'lock'
 
@@ -185,52 +185,52 @@ namespace OnvifCamera
 
 			try
 			{
-				this.pendingStatus = true;
+				pendingStatus = true;
 				statusPosition = await Call<PtzValue>("getStatus");
 			}
 			catch (Exception e)
 			{
 				logger.LogError(e, $"Camera[{Name}]: Could not update status");
 				// TODO: Check exception message
-				this.SetOnline(false);
+				SetOnline(false);
 				return;
 			}
 			finally
 			{
-				this.pendingStatus = false;
+				pendingStatus = false;
 			}
 
-			this.previousPosition = this.position;
+			previousPosition = position;
 
-			this.position.Native = statusPosition;
+			position.Native = statusPosition;
 
 			// Check if the camera is still moving
-			if (this.previousPosition != this.position)
+			if (previousPosition != position)
 			{
 				// The camera is still moving
 
-				this.isMoving = true;
+				isMoving = true;
 
 				// Increase update interval
-				this.statusTimer.Interval = 50;
+				statusTimer.Interval = 50;
 				// TODO: Publish move event
 			}
 			else
 			{
 				// The camera has stopped moving
 
-				this.isMoving = false;
+				isMoving = false;
 
-				this.statusTimer.Stop();
+				statusTimer.Stop();
 
 				// Set update interval back to default
-				this.statusTimer.Interval = 100;
+				statusTimer.Interval = 100;
 
-				if (this.isMovingToTarget)
+				if (isMovingToTarget)
 				{
-					if (this.moveTarget == this.position)
+					if (moveTarget == position)
 					{
-						this.isMovingToTarget = false;
+						isMovingToTarget = false;
 						// Consider publishing event: moving-to finished
 					}
 					else
@@ -238,7 +238,7 @@ namespace OnvifCamera
 						// Consider what scenarios this point is reached
 						logger.LogWarning($"Camera[{Name}]: The camera has stopped moving before reaching its target");
 						// TODO: Implement repeat limit and error reporting
-						await this.MoveTo(this.moveTarget);
+						await MoveTo(moveTarget);
 					}
 				}
 			}
@@ -253,17 +253,17 @@ namespace OnvifCamera
 		public async Task MoveTo(CameraPosition position)
 		{
 			logger.LogInformation($"Camera[{Name}]: MoveTo: " + position.ToString());
-			this.moveTarget = position;
+			moveTarget = position;
 			// TODO: Test for callback error when offline
 			// Camera move operations order: x, zoom, y
-			await Call<object>("absoluteMove", this.moveTarget.Native);
-			this.isMovingToTarget = true;
-			this.statusTimer.Start();
+			await Call<object>("absoluteMove", moveTarget.Native);
+			isMovingToTarget = true;
+			statusTimer.Start();
 		}
 
 		~Camera()
 		{
-			this.Disable();
+			Disable();
 			logger.LogInformation($"Camera[{Name}]: Deleted");
 		}
 
