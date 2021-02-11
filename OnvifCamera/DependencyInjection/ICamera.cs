@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace OnvifCamera
@@ -12,10 +12,12 @@ namespace OnvifCamera
 		void Disable();
 		Task Enable();
 		Task<string> GetSnapshot();
-		Task<bool> AbsoluteMove(PtzValue position);
+
 		public bool IsEnabled { get; }
 		public bool IsOnline { get; }
 		public CameraStatus Status { get; }
 		public PtzValue Position { get; }
+
+		public Task MoveTo(PtzValue position);
 	}
 }

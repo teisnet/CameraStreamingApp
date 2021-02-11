@@ -57,15 +57,15 @@ namespace OnvifCameraTestApp
 				{
 					case '1':
 						Console.WriteLine("Moving to { X = 0, Y = 0, Zoom = 1 }");
-						await camera.AbsoluteMove(new PtzValue { X = 0, Y = 0, Zoom = 1 });
+						await camera.MoveTo(new PtzValue { X = 0, Y = 0, Zoom = 1 });
 						break;
 					case '2':
 						Console.WriteLine("Moving to { X = 0, Y = 1, Zoom = 1 }");
-						await camera.AbsoluteMove(new PtzValue { X = 0, Y = 1, Zoom = 1 });
+						await camera.MoveTo(new PtzValue { X = 0, Y = 1, Zoom = 1 });
 						break;
 					case '3':
 						Console.WriteLine("Moving to { X = 1, Y = 1, Zoom = 1 }");
-						await camera.AbsoluteMove(new PtzValue { X = 1, Y = 1, Zoom = 1 });
+						await camera.MoveTo(new PtzValue { X = 1, Y = 1, Zoom = 1 });
 						break;
 					case 's':
 						string snatshotUri = await camera.GetSnapshot();
