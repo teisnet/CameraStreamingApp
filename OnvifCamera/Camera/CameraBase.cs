@@ -13,20 +13,18 @@ namespace OnvifCamera
 
 	public class CameraBase
 	{
+		public string Name => config.Name;
+
 		public bool IsEnabled { get; protected set; }
 		public bool IsOnline { get; protected set; }
 		public CameraStatus Status { get => new(IsEnabled, IsOnline); }
 
 
 		private INodeServices nodeService;
-
 		private string nodeFilename = "./node-camera.js";
-
-		public string Name => config.Name;
 
 		protected readonly ILogger<Camera> logger;
 		protected CameraConfig config;
-
 		private int configHash;
 
 		public CameraBase()

@@ -11,6 +11,7 @@ namespace OnvifCamera
 	public class Camera : CameraBase, ICamera
 	{
 		// Timers
+		// Reconnect time
 		private Timer heartbeatTimer = new Timer(7000);
 		private Timer statusTimer = new Timer(100);
 
@@ -48,11 +49,12 @@ namespace OnvifCamera
 		{
 		}
 
+		// Instantiates the Node.js Cam object. Called by Connect() if not already connected.
 		private async Task<bool> Init()
 		{
-			if (this.isInitialized) return true;
+			if (isInitialized) return true;
 
-			// TODO: Only attach handlers if not already attached.
+			// The code below will only be executed once.
 			this.heartbeatTimer.Elapsed += (sender, e) => this.Connect();
 			this.statusTimer.Elapsed += (sender, e) => this.UpdateStatus();
 
@@ -111,7 +113,7 @@ namespace OnvifCamera
 			logger.LogInformation($"Camera[{Name}]: Enabled");
 
 			// In case camera is not online, emit 'enabled' at least.
-			PublishStatusChanged(/*isEnabled*/);
+			PublishStatusChanged(/*IsEnabled*/);
 
 			await Connect();
 			heartbeatTimer.Start();
@@ -125,11 +127,12 @@ namespace OnvifCamera
 			heartbeatTimer.Stop();
 			if (IsOnline)
 			{
+				// SetOnline will only fire if IsOnline has changed.
 				SetOnline(false);
 			}
 			else
 			{
-				PublishStatusChanged(/*isEnabled*/);
+				PublishStatusChanged(/*IsEnabled*/);
 			}
 
 			logger.LogInformation($"Camera[{Name}]: Disabled");
@@ -169,7 +172,7 @@ namespace OnvifCamera
 
 			logger.LogInformation($"Camera[{Name}]: {(IsOnline ? "Connected" : "Disconnected")}");
 
-			PublishStatusChanged(/*isOnline*/);
+			PublishStatusChanged(/*IsOnline*/);
 		}
 
 		// Consider case when camera hasn't startet moving yet. Consider 'settle' period.
