@@ -17,8 +17,6 @@ namespace OnvifCamera
 		// Camera state fields
 		private bool isInitialized = false;
 
-		private bool isOnline = false;
-		private bool isEnabled = false;
 
 		private bool pendingStatus = false;
 		private bool pendingConnect = false;
@@ -107,8 +105,8 @@ namespace OnvifCamera
 
 		public async Task Enable()
 		{
-			if (isEnabled) { return; }
-			isEnabled = true;
+			if (IsEnabled) { return; }
+			IsEnabled = true;
 
 			logger.LogInformation($"Camera[{Name}]: Enabled");
 
@@ -121,11 +119,11 @@ namespace OnvifCamera
 
 		public void Disable()
 		{
-			if (!isEnabled) { return; }
-			isEnabled = false;
+			if (!IsEnabled) { return; }
+			IsEnabled = false;
 			// TODO: Stop any movements in progress
 			heartbeatTimer.Stop();
-			if (isOnline)
+			if (IsOnline)
 			{
 				SetOnline(false);
 			}
@@ -166,10 +164,10 @@ namespace OnvifCamera
 
 		private void SetOnline(bool value)
 		{
-			if (isOnline == value) { return; }
-			isOnline = value;
+			if (IsOnline == value) { return; }
+			IsOnline = value;
 
-			logger.LogInformation($"Camera[{Name}]: {(isOnline ? "Connected" : "Disconnected")}");
+			logger.LogInformation($"Camera[{Name}]: {(IsOnline ? "Connected" : "Disconnected")}");
 
 			PublishStatusChanged(/*isOnline*/);
 		}
