@@ -16,5 +16,6 @@ namespace OnvifCamera
 		public bool IsEnabled { get; }
 		public bool IsOnline { get; }
 		public CameraStatus Status { get; }
+		public PtzValue Position { get; }
 	}
 }

@@ -18,7 +18,18 @@ namespace OnvifCamera
 		public bool IsEnabled { get; protected set; }
 		public bool IsOnline { get; protected set; }
 		public CameraStatus Status { get => new(IsEnabled, IsOnline); }
+		public PtzValue Position { get => position; }
 
+		protected bool pendingStatus;
+		protected bool pendingConnect;
+		protected bool isMoving;
+		protected bool isMovingToTarget;
+
+		// Position , moveTarget and previousPosition in degrees (not internal camera values)
+		// TODO: In newing necesary?
+		protected PtzValue position = new ();
+		protected PtzValue previousPosition = new ();
+		protected PtzValue moveTarget = new ();
 
 		private INodeServices nodeService;
 		private string nodeFilename = "./node-camera.js";

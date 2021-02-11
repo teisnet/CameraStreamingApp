@@ -18,17 +18,6 @@ namespace OnvifCamera
 		// Camera state fields
 		private bool isInitialized = false;
 
-
-		private bool pendingStatus = false;
-		private bool pendingConnect = false;
-
-		private bool isMoving = false;
-		private bool isMovingToTarget;
-
-		private CameraPosition moveTarget;
-		private CameraPosition position;
-		private CameraPosition previousPosition;
-
 		private JToken nodeOnvifCamera;
 
 
