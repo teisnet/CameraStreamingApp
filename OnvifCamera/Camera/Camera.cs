@@ -195,6 +195,8 @@ namespace OnvifCamera
 
 			pendingStatus = false;
 
+			logger.LogInformation($"Camera[{Name}]: Status recieved: {statusPosition}");
+
 			previousPosition = position;
 
 			position = CamerUtils.CameraToDegrees(statusPosition);
@@ -208,6 +210,9 @@ namespace OnvifCamera
 
 				// Increase update interval
 				statusTimer.Interval = 50;
+				
+				logger.LogInformation($"Camera[{Name}] move event: {position}");
+				
 				// TODO: Publish move event
 			}
 			else
@@ -226,6 +231,9 @@ namespace OnvifCamera
 					if (CamerUtils.PosIsEqual(moveTarget, position))
 					{
 						isMovingToTarget = false;
+						
+						logger.LogInformation($"Camera[{Name}] moving to target finished: {position}");
+
 						// Consider publishing event: moving-to finished
 					}
 					else
