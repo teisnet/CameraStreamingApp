@@ -179,9 +179,10 @@ namespace OnvifCamera
 
 			PtzValue statusPosition;
 
+			pendingStatus = true;
+			
 			try
 			{
-				pendingStatus = true;
 				statusPosition = await Call<PtzValue>("getStatus");
 			}
 			catch (Exception e)
@@ -191,10 +192,8 @@ namespace OnvifCamera
 				SetOnline(false);
 				return;
 			}
-			finally
-			{
-				pendingStatus = false;
-			}
+
+			pendingStatus = false;
 
 			previousPosition = position;
 
