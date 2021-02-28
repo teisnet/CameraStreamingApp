@@ -197,10 +197,10 @@ namespace OnvifCamera
 
 			previousPosition = position;
 
-			position.Native = statusPosition;
+			position = CamerUtils.CameraToDegrees(statusPosition);
 
 			// Check if the camera is still moving
-			if (previousPosition != position)
+			if (!CamerUtils.PosIsEqual(previousPosition, position))
 			{
 				// The camera is still moving
 
@@ -223,7 +223,7 @@ namespace OnvifCamera
 
 				if (isMovingToTarget)
 				{
-					if (moveTarget == position)
+					if (CamerUtils.PosIsEqual(moveTarget, position))
 					{
 						isMovingToTarget = false;
 						// Consider publishing event: moving-to finished
@@ -241,14 +241,14 @@ namespace OnvifCamera
 			}
 		}
 
-		public async Task MoveTo(CameraPosition position)
+		public async Task MoveTo(PtzValue position)
 		{
 			logger.LogInformation($"Camera[{Name}]: MoveTo: " + position.ToString());
 			moveTarget = position;
 			// TODO: Test for callback error when offline
 			// Camera move operations order: x, zoom, y
-			await Call<object>("absoluteMove", moveTarget.Native);
 			isMovingToTarget = true;
+			await Call<object>("absoluteMove", CamerUtils.DegreesToCamera(moveTarget));
 			statusTimer.Start();
 		}
 
