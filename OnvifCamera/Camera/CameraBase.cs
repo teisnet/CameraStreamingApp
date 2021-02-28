@@ -86,7 +86,7 @@ namespace OnvifCamera
 			}
 			catch (Exception e)
 			{
-				logger.LogError(e, $"Camera[{Name}]: Error when calling Node function '{function}()': " + e.InnerException.Message ?? e.Message);
+				logger.LogError(e, $"Camera[{Name}]: Error when calling Node function '{function}()': " + e.InnerException?.Message ?? e.Message);
 				return default;
 			}
 		}
