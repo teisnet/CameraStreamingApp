@@ -26,7 +26,7 @@ namespace OnvifCamera
 		public dynamic DefaultProfile { get; set; }
 		public dynamic ActiveSource { get; set; }
 
-		public PtzRange Range;
+		// public PtzRange Range;
 
 		// Events
 		public event EventHandler Moving;
@@ -63,6 +63,7 @@ namespace OnvifCamera
 				nodeOnvifCamera = await Call<JToken>("connect");
 			}
 
+			/*
 			Capabilities = nodeOnvifCamera["capabilities"].ToObject<dynamic>();
 			VideoSources = nodeOnvifCamera["videoSources"].ToObject<dynamic>();
 			Profiles = nodeOnvifCamera["profiles"].ToObject<dynamic>();
@@ -92,6 +93,7 @@ namespace OnvifCamera
 			moveTarget = new CameraPosition(Range);
 			position = new CameraPosition(Range);
 			previousPosition = new CameraPosition(Range);
+			*/
 
 			isInitialized = true;
 
