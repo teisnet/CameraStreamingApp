@@ -35,6 +35,8 @@ namespace OnvifCamera
 		public Camera(IOptionsMonitor<CameraConfig> config, ILogger<Camera> logger, INodeServices nodeServices)
 			: base(config, logger, nodeServices)
 		{
+			heartbeatTimer.Elapsed += (sender, e) => Connect();
+			statusTimer.Elapsed += (sender, e) => UpdateStatus();
 		}
 
 		// Instantiates the Node.js Cam object. Called by Connect() if not already connected.
@@ -43,8 +45,6 @@ namespace OnvifCamera
 			if (isInitialized) return true;
 
 			// The code below will only be executed once.
-			this.heartbeatTimer.Elapsed += (sender, e) => this.Connect();
-			this.statusTimer.Elapsed += (sender, e) => this.UpdateStatus();
 
 			if (nodeOnvifCamera == null)
 			{
