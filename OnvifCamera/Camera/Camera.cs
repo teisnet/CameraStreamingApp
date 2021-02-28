@@ -8,6 +8,8 @@ using Microsoft.Extensions.Options;
 
 namespace OnvifCamera
 {
+	public enum MoveCommand { Stop, Left, Right, Up, Down, ZoomOut, ZoomIn }
+
 	public class Camera : CameraBase, ICamera
 	{
 		// Timers
@@ -258,6 +260,47 @@ namespace OnvifCamera
 			isMovingToTarget = true;
 			await Call<object>("absoluteMove", CamerUtils.DegreesToCamera(moveTarget));
 			statusTimer.Start();
+		}
+
+		public void Move(MoveCommand command)
+		{
+			logger.LogInformation($"Camera[{Name}].move: {command}");
+
+			PtzValue direction = new PtzValue (0, 0, 0);
+
+			switch (command)
+			{
+				case MoveCommand.Stop:
+					break;
+				case MoveCommand.Left:
+					direction.X = -1.0f;
+					break;
+				case MoveCommand.Right:
+					direction.X = 1.0f;
+					break;
+				case MoveCommand.Up:
+					direction.Y = 1.0f;
+					break;
+				case MoveCommand.Down:
+					direction.Y = -1.0f;
+					break;
+				case MoveCommand.ZoomOut:
+					direction.Zoom = -1.0f;
+					break;
+				case MoveCommand.ZoomIn:
+					direction.Zoom = 1.0f;
+					break;
+			}
+			// TODO: Test for callback error when offline
+
+			_ = Call<object>("continuousMove", direction);
+
+			isMovingToTarget = false;
+
+			statusTimer.Interval = 100;
+
+			//this._updateStatus();
+
 		}
 
 		~Camera()

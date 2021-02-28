@@ -36,6 +36,13 @@ module.exports = {
 		cb(null, true);
 	},
 
+	continuousMove: function (cb, direction) {
+		if (!camera) return cb(new ReferenceError(cameraNotInitializedErrorMessage));
+		camera.continuousMove(direction, function (err, status) {
+			cb(err); // Is this correct?
+		});
+	},
+
 	getSnapshot: function (cb) {
 		if (!camera) return cb(new ReferenceError(cameraNotInitializedErrorMessage));
 		camera.getSnapshotUri(function (err, result) {
