@@ -53,21 +53,55 @@ namespace OnvifCameraTestApp
 			while (true)
 			{
 				var key = Console.ReadKey(true);
-				switch (Char.ToLower(key.KeyChar))
+				switch (key.Key)
 				{
-					case '1':
+					case ConsoleKey.Escape:
+						camera.Move(MoveCommand.Stop);
+						break;
+					case ConsoleKey.LeftArrow:
+						camera.Move(MoveCommand.Left);
+						break;
+					case ConsoleKey.RightArrow:
+						camera.Move(MoveCommand.Right);
+						break;
+					case ConsoleKey.UpArrow:
+						camera.Move(MoveCommand.Up);
+						break;
+					case ConsoleKey.DownArrow:
+						camera.Move(MoveCommand.Down);
+						break;
+					case ConsoleKey.OemPlus:
+						camera.Move(MoveCommand.ZoomIn);
+						break;
+					case ConsoleKey.OemMinus:
+						camera.Move(MoveCommand.ZoomOut);
+						break;
+					case ConsoleKey.D1:
+						// Forward
+						Console.WriteLine("Moving to { X = 90, Y = 0, Zoom = 1 }");
+						await camera.MoveTo(new PtzValue { X = 90, Y = 0, Zoom = 1 });
+						break;
+					case ConsoleKey.D2:
+						// Down
+						Console.WriteLine("Moving to { X = 0, Y = 90, Zoom = 1 }");
+						await camera.MoveTo(new PtzValue { X = 90, Y = 90, Zoom = 1 });
+						break;
+					case ConsoleKey.D3:
+						// Left
 						Console.WriteLine("Moving to { X = 0, Y = 0, Zoom = 1 }");
 						await camera.MoveTo(new PtzValue { X = 0, Y = 0, Zoom = 1 });
 						break;
-					case '2':
-						Console.WriteLine("Moving to { X = 0, Y = 1, Zoom = 1 }");
-						await camera.MoveTo(new PtzValue { X = 0, Y = 1, Zoom = 1 });
+					case ConsoleKey.D4:
+						// Right
+						Console.WriteLine("Moving to { X = 180, Y = 0, Zoom = 1 }");
+						await camera.MoveTo(new PtzValue { X = 180, Y = 0, Zoom = 1 });
 						break;
-					case '3':
-						Console.WriteLine("Moving to { X = 1, Y = 1, Zoom = 1 }");
-						await camera.MoveTo(new PtzValue { X = 1, Y = 1, Zoom = 1 });
+					case ConsoleKey.D5:
+						// Back 
+						Console.WriteLine("Moving to { X = 180, Y = 90, Zoom = 1 }");
+						await camera.MoveTo(new PtzValue { X = 270, Y = 0, Zoom = 1 });
 						break;
-					case 's':
+					case ConsoleKey.S:
 						string snatshotUri = await camera.GetSnapshot();
 						Console.WriteLine($"SnapshotUri = {snatshotUri}");
 
@@ -76,7 +110,7 @@ namespace OnvifCameraTestApp
 						Process.Start(appSettings.ImageViewerPath, $"\"{filePath}\"");
 
 						break;
-					case 'x':
+					case ConsoleKey.X:
 						return;
 					default:
 						Console.WriteLine($"Unknown command '{key.KeyChar}'");
