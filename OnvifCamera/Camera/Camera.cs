@@ -37,6 +37,11 @@ namespace OnvifCamera
 		{
 			heartbeatTimer.Elapsed += (sender, e) => Connect();
 			statusTimer.Elapsed += (sender, e) => UpdateStatus();
+
+			// TODO: Cannot automatically enable on initialization since it cannot be awaited inside a constructor.
+			// if (this.config.Enabled)
+			// { await Enable(); }
+			// else { logger.LogWarning("Camera[" + Name + "]: disabled"); } */
 		}
 
 		// Instantiates the Node.js Cam object. Called by Connect() if not already connected.
@@ -210,7 +215,7 @@ namespace OnvifCamera
 
 				isMoving = false;
 
-				statusTimer.Stop();
+				statusTimer.Stop(); // Not in original code
 
 				// Set update interval back to default
 				statusTimer.Interval = 100;
@@ -225,8 +230,10 @@ namespace OnvifCamera
 					else
 					{
 						// Consider what scenarios this point is reached
-						logger.LogWarning($"Camera[{Name}]: The camera has stopped moving before reaching its target");
+						logger.LogWarning($"Camera[{Name}]: The camera has stopped moving before reaching its target.");
 						// TODO: Implement repeat limit and error reporting
+
+						// I don't think this should this be awaited.
 						await MoveTo(moveTarget);
 					}
 				}
