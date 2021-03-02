@@ -43,7 +43,7 @@ namespace OnvifCamera
 			// TODO: Cannot automatically enable on initialization since it cannot be awaited inside a constructor.
 			// if (this.config.Enabled)
 			// { await Enable(); }
-			// else { logger.LogWarning("Camera[" + Name + "]: disabled"); } */
+			// else { logger.LogWarning($"{Name}]: disabled"); }
 		}
 
 		// Instantiates the Node.js Cam object. Called by Connect() if not already connected.
@@ -107,7 +107,7 @@ namespace OnvifCamera
 			if (IsEnabled) { return; }
 			IsEnabled = true;
 
-			logger.LogInformation($"Camera[{Name}]: Enabled");
+			logger.LogInformation($"[{Name}]: Enabled");
 
 			// In case camera is not online, emit 'enabled' at least.
 			PublishStatusChanged(/*IsEnabled*/);
@@ -132,7 +132,7 @@ namespace OnvifCamera
 				PublishStatusChanged(/*IsEnabled*/);
 			}
 
-			logger.LogInformation($"Camera[{Name}]: Disabled");
+			logger.LogInformation($"[{Name}]: Disabled");
 		}
 
 		private async Task Connect()
@@ -148,7 +148,7 @@ namespace OnvifCamera
 				}
 				catch (Exception e)
 				{
-					logger.LogError(e, $"Camera[{Name}]: Could not connect to camera using ONVIF");
+					logger.LogError(e, $"[{Name}]: Could not connect to camera using ONVIF");
 					return;
 				}
 				finally
@@ -167,7 +167,7 @@ namespace OnvifCamera
 			if (IsOnline == value) { return; }
 			IsOnline = value;
 
-			logger.LogInformation($"Camera[{Name}]: {(IsOnline ? "Connected" : "Disconnected")}");
+			logger.LogInformation($"[{Name}]: {(IsOnline ? "Connected" : "Disconnected")}");
 
 			PublishStatusChanged(/*IsOnline*/);
 		}
@@ -189,7 +189,7 @@ namespace OnvifCamera
 			}
 			catch (Exception e)
 			{
-				logger.LogError(e, $"Camera[{Name}]: Could not update status");
+				logger.LogError(e, $"[{Name}]: Could not update status");
 				// TODO: Check exception message
 				SetOnline(false);
 				return;
@@ -197,7 +197,7 @@ namespace OnvifCamera
 
 			pendingStatus = false;
 
-			logger.LogInformation($"Camera[{Name}]: Status recieved: {statusPosition}");
+			logger.LogInformation($"[{Name}]: Status recieved: {statusPosition}");
 
 			previousPosition = position;
 
@@ -213,7 +213,7 @@ namespace OnvifCamera
 				// Increase update interval
 				statusTimer.Interval = 50;
 				
-				logger.LogInformation($"Camera[{Name}] move event: {position}");
+				logger.LogInformation($"[{Name}] move event: {position}");
 				
 				// TODO: Publish move event
 			}
@@ -234,14 +234,14 @@ namespace OnvifCamera
 					{
 						isMovingToTarget = false;
 						
-						logger.LogInformation($"Camera[{Name}] moving to target finished: {position}");
+						logger.LogInformation($"[{Name}] moving to target finished: {position}");
 
 						// Consider publishing event: moving-to finished
 					}
 					else
 					{
 						// Consider what scenarios this point is reached
-						logger.LogWarning($"Camera[{Name}]: The camera has stopped moving before reaching its target.");
+						logger.LogWarning($"[{Name}]: The camera has stopped moving before reaching its target.");
 						// TODO: Implement repeat limit and error reporting
 
 						// I don't think this should this be awaited.
@@ -253,7 +253,7 @@ namespace OnvifCamera
 
 		public async Task MoveTo(PtzValue position)
 		{
-			logger.LogInformation($"Camera[{Name}]: MoveTo: " + position.ToString());
+			logger.LogInformation($"[{Name}]: MoveTo: " + position.ToString());
 			moveTarget = position;
 			// TODO: Test for callback error when offline
 			// Camera move operations order: x, zoom, y
@@ -264,7 +264,7 @@ namespace OnvifCamera
 
 		public void Move(MoveCommand command)
 		{
-			logger.LogInformation($"Camera[{Name}].move: {command}");
+			logger.LogInformation($"[{Name}].move: {command}");
 
 			PtzValue direction = new PtzValue (0, 0, 0);
 
@@ -306,7 +306,7 @@ namespace OnvifCamera
 		~Camera()
 		{
 			Disable();
-			logger.LogInformation($"Camera[{Name}]: Deleted");
+			logger.LogInformation($"[{Name}]: Deleted");
 		}
 
 		// Events

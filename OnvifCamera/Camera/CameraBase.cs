@@ -65,7 +65,7 @@ namespace OnvifCamera
 				{
 					this.config = config;
 					configHash = newConfigHash;
-					logger.LogInformation($"Camera[{Name}]: The camera configuration has been updated.");
+					logger.LogInformation($"[{Name}]: The camera configuration has been updated.");
 
 					OnConfigChange();
 				}
@@ -86,7 +86,7 @@ namespace OnvifCamera
 			}
 			catch (Exception e)
 			{
-				logger.LogError(e, $"Camera[{Name}]: Error when calling Node function '{function}()': " + e.InnerException?.Message ?? e.Message);
+				logger.LogError(e, $"[{Name}]: Error when calling Node function '{function}()': " + e.InnerException?.Message ?? e.Message);
 				return default;
 			}
 		}
@@ -114,7 +114,7 @@ namespace OnvifCamera
 		{
 			if (!isInitialized)
 			{
-				throw new InvalidOperationException($"Cannot get snapshot when camera {Name} is not yet initialized.");
+				throw new InvalidOperationException($"Cannot get snapshot when camera \"{Name}\" is not yet initialized.");
 			}
 
 			// Formatting DateTime: https://stackoverflow.com/questions/7898392/append-timestamp-to-a-file-name
@@ -130,7 +130,7 @@ namespace OnvifCamera
 				}
 				catch (Exception e)
 				{
-					logger.LogError($"Camera[{Name}]: Could not download snapshot from {uri.Scheme}://{uri.Host}:{uri.Port}{uri.PathAndQuery} (credentials are omitted here)");
+					logger.LogError($"[{Name}]: Could not download snapshot from {uri.Scheme}://{uri.Host}:{uri.Port}{uri.PathAndQuery} (credentials are omitted here)");
 					return default;
 				}
 			}
