@@ -22,6 +22,7 @@ namespace OnvifCamera
 		// Camera state fields
 
 		private JToken nodeOnvifCamera;
+		private dynamic nodeOnvifCameraData;
 
 
 		public dynamic Capabilities { get; set; }
@@ -67,15 +68,24 @@ namespace OnvifCamera
 				nodeOnvifCamera = await Call<JToken>("connect");
 			}
 
-			/*
-			Profiles = nodeOnvifCamera["profiles"].ToObject<dynamic>();
-			Capabilities = nodeOnvifCamera["capabilities"].ToObject<dynamic>();
-			VideoSources = nodeOnvifCamera["videoSources"].ToObject<dynamic>();
-			DefaultProfile = nodeOnvifCamera["defaultProfile"].ToObject<dynamic>();
-			ActiveSource = nodeOnvifCamera["activeSource"].ToObject<dynamic>();
+			GetCameraProperties();
+
+			isInitialized = true;
+
+			return isInitialized;
+		}
+
+		private void GetCameraProperties()
+		{
+			nodeOnvifCameraData = nodeOnvifCamera.ToObject<dynamic>();
+
+			Profiles = nodeOnvifCamera["profiles"];
+			Capabilities = nodeOnvifCamera["capabilities"];
+			VideoSources = nodeOnvifCamera["videoSources"];
+			DefaultProfile = nodeOnvifCamera["defaultProfile"];
+			ActiveSource = nodeOnvifCamera["activeSource"];
 
 			dynamic ptzConfiguration = DefaultProfile.PTZConfiguration;
-
 
 			dynamic zoomLimits = ptzConfiguration.zoomLimits.range.XRange;
 			float zoomMax = zoomLimits.max.ToObject<float>();
@@ -87,6 +97,7 @@ namespace OnvifCamera
 			float yMin = panTiltLimits.YRange.min.ToObject<float>();
 			float yMax = panTiltLimits.YRange.max.ToObject<float>();
 
+			/*
 			Range = new PtzRange()
 			{
 				X = new Range<float>(xMin, xMax),
@@ -98,10 +109,6 @@ namespace OnvifCamera
 			position = new CameraPosition(Range);
 			previousPosition = new CameraPosition(Range);
 			*/
-
-			isInitialized = true;
-
-			return isInitialized;
 		}
 
 		public async Task SaveInfo()
