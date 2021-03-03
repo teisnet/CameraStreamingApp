@@ -20,5 +20,6 @@ namespace OnvifCamera
 
 		public Task MoveTo(PtzValue position);
 		public void Move(MoveCommand command);
+		public Task<PtzValue> GetStatus();
 	}
 }

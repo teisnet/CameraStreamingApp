@@ -110,6 +110,10 @@ namespace OnvifCameraTestApp
 						Process.Start(appSettings.ImageViewerPath, $"\"{filePath}\"");
 
 						break;
+					case ConsoleKey.G:
+						PtzValue status = await camera.GetStatus();
+						Console.WriteLine($"Status = {status}");
+						break;
 					case ConsoleKey.X:
 						return;
 					default:

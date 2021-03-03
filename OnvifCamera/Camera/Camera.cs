@@ -172,6 +172,12 @@ namespace OnvifCamera
 			PublishStatusChanged(/*IsOnline*/);
 		}
 
+		public async Task<PtzValue> GetStatus()
+		{
+			PtzValue statusPosition = await Call<PtzValue>("getStatus");
+			return statusPosition;
+		}
+
 		// Consider case when camera hasn't startet moving yet. Consider 'settle' period.
 		private async Task UpdateStatus()
 		{
