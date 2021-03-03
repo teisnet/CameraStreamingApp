@@ -7,6 +7,7 @@ namespace Microsoft.Extensions.DependencyInjection
 	{
 		// https://csharp.christiannagel.com/2016/07/27/diwithoptions/amp/
 
+		[Obsolete]
 		public static IServiceCollection AddCamera(this IServiceCollection services, Action<CameraConfig> setupCallback)
 		{
 			if (services == null) throw new ArgumentNullException(nameof(services));
@@ -18,6 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
 			services.AddNodeServices(options => {
 				options.LaunchWithDebugging = true;
 				options.DebuggingPort = 9229;
+				options.WatchFileExtensions = new [] { "" };
 			});
 
 			services.AddSingleton<ICamera, Camera>();
