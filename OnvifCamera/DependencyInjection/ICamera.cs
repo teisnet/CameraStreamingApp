@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 
 namespace OnvifCamera
@@ -13,13 +13,13 @@ namespace OnvifCamera
 		Task Enable();
 		Task<string> GetSnapshot();
 
-		public bool IsEnabled { get; }
-		public bool IsOnline { get; }
-		public CameraStatus Status { get; }
-		public PtzValue Position { get; }
+		bool IsEnabled { get; }
+		bool IsOnline { get; }
+		CameraStatus Status { get; }
+		PtzValue Position { get; }
 
-		public Task MoveTo(PtzValue position);
-		public void Move(MoveCommand command);
-		public Task<PtzValue> GetStatus();
+		Task MoveTo(PtzValue position);
+		void Move(MoveCommand command);
+		Task<PtzValue> GetStatus();
 	}
 }
