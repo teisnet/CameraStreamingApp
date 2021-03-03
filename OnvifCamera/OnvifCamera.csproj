@@ -10,10 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="node-camera.js">
+    <None Update="Node\node-camera.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="node_modules\**\*">
+    <None Update="Node\node_modules\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

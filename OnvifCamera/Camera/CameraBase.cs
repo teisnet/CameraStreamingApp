@@ -35,7 +35,7 @@ namespace OnvifCamera
 		protected PtzValue moveTarget = new ();
 
 		private INodeServices nodeService;
-		private string nodeFilename = "./node-camera.js";
+		private string nodeFilename = "./Node/node-camera.js";
 
 		protected readonly ILogger<Camera> logger;
 		protected CameraConfig config;
