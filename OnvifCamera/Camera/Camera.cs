@@ -108,9 +108,9 @@ namespace OnvifCamera
 		{
 			if (!isInitialized) return;
 
-			string cameraInfoJson = JsonConvert.SerializeObject(nodeOnvifCamera);
+			string cameraInfoJson = JsonConvert.SerializeObject(nodeOnvifCamera, Formatting.Indented);
 
-			await File.WriteAllTextAsync("CameraInfo.json", cameraInfoJson);
+			await File.WriteAllTextAsync($"Camera {Name} info.json", cameraInfoJson);
 		}
 
 		public async Task Enable()
