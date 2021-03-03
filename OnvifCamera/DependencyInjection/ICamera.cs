@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace OnvifCamera
@@ -21,5 +21,6 @@ namespace OnvifCamera
 		Task MoveTo(PtzValue position);
 		void Move(MoveCommand command);
 		Task<PtzValue> GetStatus();
+		Task SaveInfo();
 	}
 }

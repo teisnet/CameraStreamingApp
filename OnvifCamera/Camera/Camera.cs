@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.NodeServices;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace OnvifCamera
 {
@@ -66,9 +68,9 @@ namespace OnvifCamera
 			}
 
 			/*
+			Profiles = nodeOnvifCamera["profiles"].ToObject<dynamic>();
 			Capabilities = nodeOnvifCamera["capabilities"].ToObject<dynamic>();
 			VideoSources = nodeOnvifCamera["videoSources"].ToObject<dynamic>();
-			Profiles = nodeOnvifCamera["profiles"].ToObject<dynamic>();
 			DefaultProfile = nodeOnvifCamera["defaultProfile"].ToObject<dynamic>();
 			ActiveSource = nodeOnvifCamera["activeSource"].ToObject<dynamic>();
 
@@ -100,6 +102,15 @@ namespace OnvifCamera
 			isInitialized = true;
 
 			return isInitialized;
+		}
+
+		public async Task SaveInfo()
+		{
+			if (!isInitialized) return;
+
+			string cameraInfoJson = JsonConvert.SerializeObject(nodeOnvifCamera);
+
+			await File.WriteAllTextAsync("CameraInfo.json", cameraInfoJson);
 		}
 
 		public async Task Enable()

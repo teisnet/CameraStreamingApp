@@ -50,6 +50,8 @@ namespace OnvifCameraTestApp
 			Console.WriteLine("Press key");
 			Console.WriteLine("S: Snapshot, 1: (x=0,y=0,zoom=1), 2:(x=0,y=1,zoom=1), 3:(x=1,y=1,zoom=1)");
 
+			_ = camera.SaveInfo();
+
 			while (true)
 			{
 				var key = Console.ReadKey(true);
