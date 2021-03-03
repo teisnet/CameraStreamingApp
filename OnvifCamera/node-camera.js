@@ -24,6 +24,7 @@ module.exports = {
 	getStatus: function (cb) {
 		if (!camera) return cb(new ReferenceError(cameraNotInitializedErrorMessage));
 		camera.getStatus(function (err, status) {
+			// console.log("Node: GetStatus: " + JSON.stringify(status));
 			status.position.z = status.position.zoom;
 			cb(err, status.position);
 		});
