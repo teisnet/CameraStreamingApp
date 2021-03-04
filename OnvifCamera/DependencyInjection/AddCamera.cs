@@ -17,8 +17,8 @@ namespace Microsoft.Extensions.DependencyInjection
 			services.Configure(setupCallback);
 
 			services.AddNodeServices(options => {
-				options.LaunchWithDebugging = true;
-				options.DebuggingPort = 9229;
+				// options.LaunchWithDebugging = true;
+				// options.DebuggingPort = 9229;
 				options.WatchFileExtensions = new [] { "" };
 			});
 
