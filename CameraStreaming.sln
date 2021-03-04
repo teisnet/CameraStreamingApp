@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CameraStreamingApi", "Camer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnvifCamera", "OnvifCamera\OnvifCamera.csproj", "{B2DE0293-40D7-4D35-A1F9-97F2E8A19C19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnvifCameraTestApp", "OnvifCameraTestApp\OnvifCameraTestApp.csproj", "{0B0EE34E-8B37-4893-A88D-C9B314E0AA8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnvifCameraTestApp", "OnvifCameraTestApp\OnvifCameraTestApp.csproj", "{0B0EE34E-8B37-4893-A88D-C9B314E0AA8E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Boatcam5", "Boatcam5\Boatcam5.csproj", "{724B75D3-522D-49AC-AC0F-20FB45695B8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0B0EE34E-8B37-4893-A88D-C9B314E0AA8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B0EE34E-8B37-4893-A88D-C9B314E0AA8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B0EE34E-8B37-4893-A88D-C9B314E0AA8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{724B75D3-522D-49AC-AC0F-20FB45695B8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{724B75D3-522D-49AC-AC0F-20FB45695B8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{724B75D3-522D-49AC-AC0F-20FB45695B8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{724B75D3-522D-49AC-AC0F-20FB45695B8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
