@@ -47,6 +47,11 @@ namespace OnvifCamera
 			// if (this.config.Enabled)
 			// { await Enable(); }
 			// else { logger.LogWarning($"{Name}]: disabled"); }
+
+			if (this.config.Enabled)
+			{
+				_ = Init();
+			}
 		}
 
 		// Instantiates the Node.js Cam object. Called by Connect() if not already connected.
