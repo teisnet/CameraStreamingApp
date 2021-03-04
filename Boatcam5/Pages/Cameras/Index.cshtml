@@ -1,0 +1,59 @@
+﻿@page
+@model Boatcam5.Pages.Cameras.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CameraPositions[0].CameraId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CameraPositions[0].X)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CameraPositions[0].Y)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CameraPositions[0].Z)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.CameraPositions) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CameraId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.X)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Y)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Z)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+              
+                    <form asp-page-handler="" asp-route-id="@item.Id" method="post">
+                        <button class="btn" >Drej Kamera</button>
+                    </form>
+                
+</td>
+        </tr>
+}
+    </tbody>
+</table>
