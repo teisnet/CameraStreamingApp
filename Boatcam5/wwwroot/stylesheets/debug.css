@@ -1,0 +1,25 @@
+/* * { outline-offset: -2px !important; outline: 2px solid rgba(255, 0, 0, 0.2) !important; } */
+
+.debug-grid, .debug-grid * {
+	outline-offset: -2px !important; outline: 2px solid rgba(255, 0, 0, 0.25) !important;
+}
+
+.debug-label {
+	display: none;
+	font-size: 14px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	/* width: 45px; */
+	background-color: red;
+	color: white;
+	padding: 0px 3px;
+}
+
+.debug-grid.debug-label, .debug-grid .debug-label {
+	display: block;
+}
+
+.debug-parent {
+	position: relative;
+}

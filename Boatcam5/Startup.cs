@@ -48,6 +48,7 @@ namespace Boatcam5
             // Add services
             services.AddCamera(config => {
                 // config.CurrentCamera = "Fjellebroen";
+                config.Enabled = true;
             });
         }
 

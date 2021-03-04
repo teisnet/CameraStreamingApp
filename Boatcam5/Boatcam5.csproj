@@ -21,4 +21,8 @@
     <ProjectReference Include="..\OnvifCamera\OnvifCamera.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Download\" />
+  </ItemGroup>
+
 </Project>
